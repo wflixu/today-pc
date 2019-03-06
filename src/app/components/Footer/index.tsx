@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as style from './style.css';
 import * as classNames from 'classnames';
-import { TodoModel } from 'app/models';
+import { TodoModel } from '../../models';
 
 export const FILTER_TITLES = {
   [TodoModel.Filter.SHOW_ALL]: 'All',
@@ -38,12 +38,15 @@ export class Footer extends React.Component<Footer.Props> {
 
   renderFilterLink(filter: TodoModel.Filter): JSX.Element {
     const { filter: selectedFilter, onClickFilter } = this.props;
-
+    const onClickFilterFn = () =>{
+       onClickFilter(filter);
+    }
+     
     return (
       <a
         className={classNames({ [style.selected]: filter === selectedFilter })}
         style={{ cursor: 'pointer' }}
-        onClick={() => onClickFilter(filter)}
+        onClick={onClickFilterFn}
         children={FILTER_TITLES[filter]}
       />
     );

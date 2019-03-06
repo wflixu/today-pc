@@ -60,7 +60,7 @@
 .normal .edit {
   display: none;
 }
-
+/* 
 .editing {
   border-bottom: none;
   padding: 0;
@@ -80,7 +80,7 @@
 
 .editing .view {
   display: none;
-}
+} */
 
 .completed label {
   color: #d9d9d9;

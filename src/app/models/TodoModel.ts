@@ -1,4 +1,4 @@
-/** TodoMVC model definitions **/
+
 
 export interface TodoModel {
   id: number;

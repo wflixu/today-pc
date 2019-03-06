@@ -19,7 +19,7 @@ const FILTER_FUNCTIONS: Record<TodoModel.Filter, (todo: TodoModel) => boolean> =
   [TodoModel.Filter.SHOW_COMPLETED]: (todo) => todo.completed
 };
 
-export namespace app {
+export namespace App {
   export interface Props extends RouteComponentProps<void> {
     todos: RootState.TodoState;
     actions: TodoActions;

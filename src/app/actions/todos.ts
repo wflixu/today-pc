@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions';
-import { TodoModel } from 'app/models';
+import { TodoModel } from '../models';
 
-export namespace TodoActions {
+export   namespace  TodoActions{
   export enum Type {
     ADD_TODO = 'ADD_TODO',
     EDIT_TODO = 'EDIT_TODO',
