@@ -14,7 +14,11 @@ import  {Counter}  from './basic/index';
 
 ReactDOM.render(
   //  <Home />
-    <Counter/>
+    <div>
+      <Counter caption="first" initValue={0} />
+      <Counter caption="scend" initValue={0} />
+      <Counter caption="third" initValue={0} />
+    </div>
   ,
   document.getElementById('root')
 );

@@ -1,8 +1,10 @@
 import * as React from "react";
 import UserComponent from './User';
-interface Props {
-  foo:string;
+interface MyProps {
+  initValue:number;
+  caption:string
 }
+
 interface MyState {
   count : number;
 }
@@ -24,25 +26,36 @@ export const Hello :React.SFC<{compiler:string,framework:string}> = (props) =>{
     </div>
   )
 }
-export class Counter extends React.Component<{},MyState>{
-  constructor (props: Readonly<Props>){
+export class Counter extends React.Component<MyProps,MyState>{
+  constructor (props: Readonly<MyProps>){
     super(props);
-    this.onClickButton = this.onClickButton.bind(this);
-    this.state = {count:0}
+    this.onClickIncrement = this.onClickIncrement.bind(this);
+    this.onClickDecrement = this.onClickDecrement.bind(this);
+    this.state = {count:props.initValue||0}
   }
-  onClickButton (){
+  onClickIncrement (){
     this.setState({count:this.state.count +1});
   }
+  onClickDecrement (){
+    this.setState({count:this.state.count -1});
+  }
+  componentWillMount(){
+    // tslint:disable-next-line:no-console
+    console.log('enter componerntwill mount' +this.props.caption )
+  }
   render(){
+    const {caption} =this.props;
     return (
       // tslint:disable-next-line:jsx-self-close
       <div>
-          <button onClick={this.onClickButton}>click me</button>
-          <span>click count :{this.state.count}</span>
+          <button onClick={this.onClickIncrement}>+</button>
+          <span>{caption}:{this.state.count}</span>
+          <button onClick={this.onClickDecrement}>-</button>
       </div>
       )
   }
 }
+
 
 
 
