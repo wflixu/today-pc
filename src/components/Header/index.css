@@ -1,0 +1,53 @@
+header {
+    height: 48px;
+    border-bottom: 2px solid #aaa;
+  }
+  .header-logo {
+    float: left;
+    margin-left: 20px;
+    height: 48px;
+  }
+  .header-logo > a {
+    display: inline-block;
+    height: 100%;
+    overflow: hidden;
+  }
+  .header-logo img {
+    height: 100%;
+  }
+  .header-nav {
+    float: right;
+    height: 48px;
+    padding-top: 8px;
+    margin-right: 20px;
+  }
+  .header-nav > a {
+    display: inline-block;
+    height: 32px;
+    width: 40px;
+    margin: 0 10px;
+  }
+  .header-nav > a:hover {
+    background-color: #0088cc;
+  }
+  .header-nav-home {
+    background: url(../../assets/icon/home.png) no-repeat center;
+    background-size: contain;
+  }
+  .header-nav-explore {
+    background: url(../../assets/icon/explore.png) no-repeat center;
+    background-size: contain;
+  }
+  .header-nav-user {
+    background: url(../../assets/icon/user.png) no-repeat center;
+    background-size: cover;
+  }
+  .header-nav-envelope {
+    background: url(../../assets/icon/envelope.png) no-repeat center;
+    background-size: contain;
+  }
+  .header-nav-edit {
+    background: url(../../assets/icon/edit.png) no-repeat center;
+    background-size: contain;
+  }
+  

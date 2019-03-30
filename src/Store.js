@@ -1,5 +1,6 @@
 
 const initialState = {
+  posts:[],
   todos: [
     {
       id: 0,

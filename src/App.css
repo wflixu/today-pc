@@ -30,3 +30,13 @@
     transform: rotate(360deg);
   }
 }
+
+
+.column_left {
+  width: 700px;
+  margin: 0 auto;
+}
+.posts {
+  width: 700px;
+}
+
