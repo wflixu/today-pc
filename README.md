@@ -1,4 +1,6 @@
 
+# today-pc
+
 ## 目录结构
 --config
 --src
@@ -6,11 +8,21 @@
 
 
 
+## 主要依赖
+npm i react react-dom redux react-redux react-router-dom redux-thunk
+
+
 ## webpack
-cnpm i -D url-loader  webpack webpack-dev-server webpack-manifest-plugin @babel/core babel-loader 
+cnpm i webpack webpack-cli webpack-dev-server ts-loader   -D  
+
+cnpm i less less-loader css-loader style-loader clean-webpack-plugin html-webpack-plugin tslint tslint-config-prettier tslint-react  -D
+
+## TS
+
+cnpm i typescript  @types/react @types/react-dom @types/react-redux @types/react-router-dom  @types/redux-thunk  -D
 
 
- cnpm i -D react-dev-utils pnp-webpack-plugin
+## 
 
  ## react 支持
  cnpm i -S history prop-types  react  react-app-polyfill  react-dom react-redux react-router-dom redux redux-thunk 
