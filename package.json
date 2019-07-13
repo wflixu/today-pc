@@ -1,10 +1,10 @@
 {
   "name": "today-pc",
   "version": "1.0.0",
-  "description": "cnpm i -S history prop-types  react  react-app-polyfill  react-dom react-redux react-router-dom redux redux-thunk",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env development",
+    "dev": "webpack-dev-server --env development",
     "build": "webpack --env production"
   },
   "repository": {
