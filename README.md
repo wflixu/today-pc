@@ -1,51 +1,27 @@
+# Vue 3 + Typescript + Vite
 
-# today-pc
+This template should help get you started developing with Vue 3 and Typescript in Vite.
 
-## 目录结构
---config
---src
---scripts
+## Recommended IDE Setup
 
+[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
 
+### If Using `<script setup>`
 
-## 主要依赖
-npm i react react-dom redux react-redux react-router-dom redux-thunk
+[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
 
+## Type Support For `.vue` Imports in TS
 
-## webpack
-cnpm i webpack webpack-cli webpack-dev-server ts-loader   less less-loader css-loader style-loader clean-webpack-plugin html-webpack-plugin tslint tslint-config-prettier tslint-react  -D
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
 
-## TS
+### If Using Volar
 
-cnpm i typescript  @types/react @types/react-dom @types/react-redux @types/react-router-dom  @types/redux-thunk  -D
+Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 
+### If Using Vetur
 
-## 
-
- ## react 支持
- cnpm i -S history prop-types  react  react-app-polyfill  react-dom react-redux react-router-dom redux redux-thunk 
-
-
-npm i reselect -S
- npm i -D  @babel/preset-env  @babel/preset-react postcss-loader
-
- npm i -D postcss-loader
-
-
- ## react-router redux
-
- npm i -D react-dev-utils pnp-webpack-plugin  case-sensitive-paths-webpack-plugin mini-css-extract-plugin  babel-plugin-named-asset-import
- npm i -D babel-plugin-named-asset-import
-
- ## eslint 
-
- npm i -D  eslint eslint-config-react-app eslint-loader  eslint-plugin-flowtype
-    "eslint-plugin-import
-    "eslint-plugin-jsx-a11y": "6.1.2",
-    "eslint-plugin-react": "7.11.1",
-
-
-## postcss
-npm i -D postcss-preset-env
-
-cnpm i -S history prop-types  react  react-app-polyfill  react-dom react-redux react-router-dom redux redux-thunk
+1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
+2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
+3. Open `src/main.ts` in VSCode
+4. Open the VSCode command palette
+5. Search and run "Select TypeScript version" -> "Use workspace version"

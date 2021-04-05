@@ -1,56 +1,20 @@
 {
-  "name": "today-pc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "today",
+  "version": "0.0.0",
   "scripts": {
-    "dev": "webpack-dev-server --env development",
-    "build": "webpack --env production"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wflixu/today-pc.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wflixu/today-pc/issues"
-  },
-  "homepage": "https://github.com/wflixu/today-pc#readme",
-  "devDependencies": {
-    "@types/react": "^16.8.22",
-    "@types/react-dom": "^16.8.4",
-    "@types/react-redux": "^7.1.1",
-    "@types/react-router-dom": "^4.3.4",
-    "@types/redux-thunk": "^2.1.0",
-    "clean-webpack-plugin": "^3.0.0",
-    "css-loader": "^3.0.0",
-    "html-webpack-plugin": "^3.2.0",
-    "less": "^3.9.0",
-    "less-loader": "^5.0.0",
-    "style-loader": "^0.23.1",
-    "ts-loader": "^6.0.4",
-    "tslint": "^5.18.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.0.0",
-    "typescript": "^3.5.2",
-    "webpack": "^4.35.0",
-    "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-redux": "^7.1.0",
-    "react-router-dom": "^5.0.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
+    "axios": "^0.21.1",
+    "vue": "^3.0.5"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vue/compiler-sfc": "^3.0.5",
+    "typescript": "^4.1.3",
+    "vite": "^2.1.5",
+    "vue-tsc": "^0.0.15"
+  }
 }
