@@ -1,15 +1,14 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import store from './store';
 import { router } from './router';
-import "ant-design-vue/dist/antd.css";
-import "./style.css";
 import Antd ,{ Layout,Menu,Button,Upload} from 'ant-design-vue';
+import "ant-design-vue/dist/antd.css";
+
+import "./style.css";
+import App from './App.vue'
 
 const app = createApp(App);
+app.use(store);
 app.use(router);
-// app.use(Antd);
-app.use(Layout);
-app.use(Menu);
-app.use(Button);
-app.use(Upload);
+app.use(Antd);
 app.mount('#app')

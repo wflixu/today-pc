@@ -3,6 +3,7 @@ import Home from './pages/Home.vue';
 import About from './pages/About.vue';
 import FileUpload from './pages/FileUpload.vue';
 import Admin from './pages/Admin.vue';
+import Play from './pages/Play.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
@@ -17,6 +18,7 @@ const routes: Array<any> = [
         component: Admin,
         children: [
             { path: 'file', component: FileUpload },
+            { path: 'play', component: Play },
             {
                 path: 'about',
                 component: About,

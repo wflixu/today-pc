@@ -16,9 +16,9 @@
                     <video-camera-outlined />
                     <span>fileupload</span>
                 </a-menu-item>
-                <a-menu-item key="3">
+                <a-menu-item key="play">
                     <upload-outlined />
-                    <span>nav 3</span>
+                    <span>playground</span>
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
