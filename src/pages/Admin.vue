@@ -20,6 +20,10 @@
                     <upload-outlined />
                     <span>playground</span>
                 </a-menu-item>
+                <a-menu-item key="tailwind">
+                    <upload-outlined />
+                    <span>tailwind</span>
+                </a-menu-item>
             </a-menu>
         </a-layout-sider>
         <a-layout>
