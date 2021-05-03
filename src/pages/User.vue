@@ -8,7 +8,7 @@
   <div>
     <div>
       mobile:
-      <input type="text" :value="mobile" />
+      <input  type="text" :value="mobile" />
     </div>
     <div>
       realName:
@@ -18,7 +18,7 @@
       password
       <input type="text" :value="password" />
     </div>
-    <div>
+    <div class="bg-">
       <button @click="login">login</button>
     </div>
   </div>

@@ -7,29 +7,45 @@ import Play from './pages/Play.vue';
 import Tailwind from './pages/Tailwind.vue';
 
 import Login from './pages/Login.vue';
+import Sign from './pages/Sign.vue';
+
+import Chart from './pages/echarts/Chart.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
-const routes: Array<any> = [
+export const routes: Array<any> = [
     { path: '/', redirect: '/admin' },
     {
-        path:'/home',
+        path: '/home',
         component: Home
     },
     {
-        path:'/login',
+        path: '/login',
         component: Login
     },
     {
-        path: '/admin', 
+        path: '/sign',
+        component: Sign
+    },
+    {
+        path: '/admin',
         component: Admin,
         children: [
-            { path: 'file', component: FileUpload },
-            { path: 'play', component: Play },
-            { path: 'tailwind', component: Tailwind },
+            {
+                path: 'file', component: FileUpload,
+                title: '文件上传'
+            },
+            { path: 'play', component: Play, title: 'play' },
+            { path: 'tailwind', component: Tailwind, title: 'tailwind' },
             {
                 path: 'about',
+                title: 'About',
                 component: About,
+            },
+            {
+                path: 'chart',
+                title: 'Chart',
+                component: Chart,
             },
         ]
     },

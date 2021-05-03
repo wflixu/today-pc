@@ -8,25 +8,14 @@
                 @click="handleClick"
                 v-model:selectedKeys="selectedKeys"
             >
-                <a-menu-item key="about">
+
+                <a-menu-item  v-for="menu in menus" :key="menu.path">
                     <user-outlined />
-                    <span>about</span>
-                </a-menu-item>
-                <a-menu-item key="file">
-                    <video-camera-outlined />
-                    <span>fileupload</span>
-                </a-menu-item>
-                <a-menu-item key="play">
-                    <upload-outlined />
-                    <span>playground</span>
-                </a-menu-item>
-                <a-menu-item key="tailwind">
-                    <upload-outlined />
-                    <span>tailwind</span>
+                    <span>{{menu.title}}</span>
                 </a-menu-item>
             </a-menu>
         </a-layout-sider>
-        <a-layout>
+        <a-layout >
             <a-layout-header style="background: #fff; padding: 0">
                 <menu-unfold-outlined
                     v-if="collapsed"
@@ -36,6 +25,7 @@
                 <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
             </a-layout-header>
             <a-layout-content
+                class="overflow-x-auto"
                 :style="{
                     margin: '24px 16px',
                     padding: '24px',
@@ -59,6 +49,9 @@ import {
 } from "@ant-design/icons-vue";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { routes} from '../router';
+
 export default defineComponent({
     components: {
         UserOutlined,
@@ -68,7 +61,11 @@ export default defineComponent({
         MenuFoldOutlined,
     },
     setup() {
-
+        let adminMenus = routes.find(item=>{
+            return item.path == `/admin`;
+        });
+        console.log(adminMenus)
+        let menus = ref(adminMenus?.children || []);
         const router = useRouter()
         const route = useRoute()
         const handleClick = (e: any) => {
@@ -76,6 +73,7 @@ export default defineComponent({
             router.push(`/admin/${e.key}`)
         };
         return {
+            menus,
             handleClick,
             selectedKeys: ref<string[]>(["1"]),
             collapsed: ref<boolean>(false),

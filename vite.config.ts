@@ -4,7 +4,17 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(),vueJsx()],
+  plugins: [vue(), vueJsx()],
+  server: {
+    cors: true,
+    proxy: {
+      '^/api/.*': {
+        target: 'http://127.0.0.1:7001',
+        changeOrigin: true,
+        // rewrite: (path) => path.replace(/^\/fallback/, '')
+      }
+    }
+  }
   // publicDir:'/public',
   // base:'public',
 
