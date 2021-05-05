@@ -14,7 +14,7 @@ import Chart from './pages/echarts/Chart.vue';
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 export const routes: Array<any> = [
-    { path: '/', redirect: '/admin' },
+    { path: '/', redirect: '/home' },
     {
         path: '/home',
         component: Home
