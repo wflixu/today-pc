@@ -9,7 +9,14 @@ import Tailwind from './pages/Tailwind.vue';
 import Login from './pages/Login.vue';
 import Sign from './pages/Sign.vue';
 
-import Chart from './pages/echarts/Chart.vue';
+import Test from './pages/Test.vue'
+
+import Post from './pages/blog/Post.vue';
+import PostDetail from './pages/blog/PostDetail.vue';
+
+import PostPage from './pages/Post.vue';
+
+import Chart from './pages/chart/Chart.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
@@ -26,6 +33,18 @@ export const routes: Array<any> = [
     {
         path: '/sign',
         component: Sign
+    },
+    {
+        path: '/test',
+        component: Test
+    },
+    {
+        path: '/post',
+        component: Post
+    },
+    {
+        path: '/post/:id',
+        component: PostDetail
     },
     {
         path: '/admin',
@@ -54,6 +73,6 @@ export const routes: Array<any> = [
 // keep it simple for now.
 export const router = createRouter({
     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes, // short for `routes: routes`
 })
