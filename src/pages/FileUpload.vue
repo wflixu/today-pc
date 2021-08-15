@@ -85,7 +85,7 @@
               uploadedFileList.value = data.map(item=>{
                   return {
                       ...item,
-                      url: 'https://www.wflixu.cn'+item.url
+                      url: window.location.origin+item.url
                   }
               });
             }

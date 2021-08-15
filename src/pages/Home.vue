@@ -18,14 +18,20 @@
         <p>sign-</p>
       </div>
     </div>
+    <SiteFooter/>
   </div>
 </template>
 <script lang="ts">
 import { ref, defineComponent } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import SiteFooter from "./../components/SiteFooter.vue";
+
 export default defineComponent({
   name: "app-home",
   props: {},
+  components: {
+    SiteFooter,
+  },
   setup: () => {
     const router = useRouter();
     const route = useRoute();
@@ -46,6 +52,7 @@ export default defineComponent({
 .t-home {
   position: relative;
   background-image: url("./../assets/bg.jpg");
+  background-size: cover;
 }
 .boxs {
   position: absolute;
