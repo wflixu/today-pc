@@ -5,6 +5,7 @@
       <div class="left"></div>
       <div class="right">
         <a-button type="primary" @click="onAddUser">新增</a-button>
+        <a-button type="primary" @click="onFresh">刷新</a-button>
       </div>
     </div>
     <a-table :dataSource="dataSource" :columns="columns">
@@ -21,8 +22,9 @@
  <script lang="ts">
 import { ref, defineComponent, reactive, onMounted } from 'vue';
 
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useRouter } from 'vue-router';
+import http, { IRes } from '../common/http';
 
 export default defineComponent({
   name: 'User',
@@ -30,20 +32,31 @@ export default defineComponent({
   setup: () => {
     const router = useRouter();
     let dataSource = ref([]);
-    axios
-      .get('/api/user')
-      .then((res) => {
-        let { code, data, msg } = res.data;
-        console.log(res);
-        if (code) {
-          console.log(msg);
-        }
-        dataSource.value = data.list;
-        console.log(dataSource);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    const getData = () => {
+      http
+        .get('/api/user')
+        .then((res) => {
+          console.log(res);
+          let { code, data, msg } = res as unknown as IRes;
+          if (code) {
+            console.log(msg);
+          }
+          dataSource.value = data.list;
+          console.log(dataSource);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    onMounted(() => {
+      getData();
+    });
+
+    const onFresh = () => {
+      getData();
+    };
 
     const onDeteleRecord = (record: any) => {
       console.log(record);
@@ -65,6 +78,7 @@ export default defineComponent({
       dataSource,
       onDeteleRecord,
       onAddUser,
+      onFresh,
 
       columns: [
         {

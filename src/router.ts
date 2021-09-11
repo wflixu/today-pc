@@ -19,14 +19,20 @@ import PostPage from './pages/Post.vue';
 import Chart from './pages/chart/Chart.vue';
 
 import User from  './pages/User.vue';
+import Robust from './pages/robust/Robust.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+
 export const routes: Array<any> = [
     { path: '/', redirect: '/home' },
     {
         path: '/home',
         component: Home
+    },
+    {
+        path: '/robust',
+        component: Robust
     },
     {
         path: '/login',
