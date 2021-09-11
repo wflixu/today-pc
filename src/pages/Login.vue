@@ -114,6 +114,7 @@ export default defineComponent({
     };
   },
   setup() {
+
     const formState: UnwrapRef<FormState> = reactive({
       username: "lx",
       password: "123",
@@ -133,6 +134,7 @@ export default defineComponent({
              if(!res.data.code){
                let { token } =  res.data.data;
                console.log(token);
+               router.push('/home');
                
              }
           });

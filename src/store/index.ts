@@ -2,7 +2,7 @@
 import { createStore } from 'vuex';
 
 const state = {
-    title: 'tsx vue3 vite'
+    title: 'Today is the day!'
 }
 
 export default createStore({

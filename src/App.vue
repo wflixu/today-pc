@@ -2,13 +2,19 @@
   <router-view></router-view>
 </template>
 <script lang="ts">
+import { defineComponent, onMounted, ref } from 'vue';
+import { mapGetters, mapState } from 'vuex';
 
-import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
-    return {
-
-    };
+    return {};
+  },
+  computed: {
+    ...mapState(['title']),
+  },
+  mounted() {
+    console.log(this.title);
+    document.title = this.title;
   },
 });
 </script>

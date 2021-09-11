@@ -1,76 +1,107 @@
 <template>
   <div>
-    {{ count }}
-  </div>
-  <div>
-    <button @click="add">add</button>
-  </div>
-  <div>
-    <div>
-      mobile:
-      <input  type="text" :value="mobile" />
+    <h2>用户管理</h2>
+    <div class="searchbox">
+      <div class="left"></div>
+      <div class="right">
+        <a-button type="primary" @click="onAddUser">新增</a-button>
+      </div>
     </div>
-    <div>
-      realName:
-      <input type="text" :value="realName" />
-    </div>
-    <div>
-      password
-      <input type="text" :value="password" />
-    </div>
-    <div class="bg-">
-      <button @click="login">login</button>
-    </div>
+    <a-table :dataSource="dataSource" :columns="columns">
+      <template #action="{ record }">
+        <div class="table_actions">
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">查看</a-button>
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">编辑</a-button>
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">删除</a-button>
+        </div>
+      </template>
+    </a-table>
   </div>
 </template>
  <script lang="ts">
-import { ref, defineComponent } from "vue";
+import { ref, defineComponent, reactive, onMounted } from 'vue';
 
-import axios from "axios";
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: "",
+  name: 'User',
   props: {},
   setup: () => {
-    const count = ref(0);
-    const add = () => {
-      count.value++;
-    };
-    const mobile = ref("13366668888");
-    const realName = ref("test-1");
-    const password = ref("123");
-    const login = () => {
-      let data = {
-        mobile: mobile.value,
-        realName: realName.value,
-        password: password.value,
-        role:'606b12a332769fddb075fb3b'
-      };
-      console.log('data',data);
-      console.log('sign');
-      
+    const router = useRouter();
+    let dataSource = ref([]);
+    axios
+      .get('/api/user')
+      .then((res) => {
+        let { code, data, msg } = res.data;
+        console.log(res);
+        if (code) {
+          console.log(msg);
+        }
+        dataSource.value = data.list;
+        console.log(dataSource);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    const onDeteleRecord = (record: any) => {
+      console.log(record);
+
       axios
-        .post("/api/user", data, {})
-        .then((res) => {
-          console.log(res);
+        .delete('/api/user', {
+          data: {
+            id: record._id,
+          },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-      console.log("login");
+        .then((res) => {});
     };
+
+    const onAddUser = () => {
+      router.push('/sign');
+    };
+
     return {
-      mobile,
-      realName,
-      password,
-      login,
+      dataSource,
+      onDeteleRecord,
+      onAddUser,
 
-      count,
-
-      add,
+      columns: [
+        {
+          title: '姓名',
+          dataIndex: 'username',
+          key: 'username',
+        },
+        {
+          title: '电话',
+          dataIndex: 'mobile',
+          key: 'mobile',
+        },
+        {
+          title: '角色',
+          dataIndex: 'role',
+          key: 'role',
+        },
+        {
+          title: '操作',
+          dataIndex: 'action',
+          slots: { customRender: 'action' },
+        },
+      ],
     };
   },
 });
 </script>
- <style scoped>
+ <style scoped lang="less">
+.table_actions {
+  display: flex;
+}
+.searchbox {
+  display: flex;
+  height: 48px;
+  align-items: center;
+  .left {
+    flex: 1;
+  }
+}
 </style>

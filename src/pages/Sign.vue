@@ -9,20 +9,12 @@
       >
         <a-form-item>
           <a-input v-model:value="formState.username" placeholder="Username">
-            <template #prefix
-              ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
-            /></template>
+            <template #prefix><UserOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
           </a-input>
         </a-form-item>
         <a-form-item>
-          <a-input
-            v-model:value="formState.password"
-            type="password"
-            placeholder="Password"
-          >
-            <template #prefix
-              ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
-            /></template>
+          <a-input v-model:value="formState.password" type="password" placeholder="Password">
+            <template #prefix><LockOutlined style="color: rgba(0, 0, 0, 0.25)" /></template>
           </a-input>
         </a-form-item>
         <a-form-item>
@@ -40,22 +32,45 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, UnwrapRef } from "vue";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
-import axios from "axios";
-import { useRoute, useRouter } from "vue-router";
+import { defineComponent, reactive, ref, UnwrapRef } from 'vue';
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import { ValidateErrorEntity } from 'ant-design-vue/es/form/interface';
+import axios from 'axios';
+import { useRoute, useRouter } from 'vue-router';
 
 interface FormState {
   username: string;
   password: string;
 }
 
+interface IRole {
+  _id:string,
+  name:string,
+  [prop:string]:any,
+}
+
 export default defineComponent({
   setup() {
+    //  获取角色
+
+    let role = ref<IRole>();
+
+    axios.get('/api/role').then((res) => {
+      console.log(res);
+      if (!res.data.code) {
+        role.value = res.data.data.list[0];
+      }
+      // if (!res.data.code) {
+      //   router.push('/login');
+      // } else {
+      //   console.log('######');
+      //   console.log(res.data);
+      // }
+    });
+
     const formState: UnwrapRef<FormState> = reactive({
-      username: "lx",
-      password: "123",
+      username: 'lx',
+      password: '123',
     });
     const router = useRouter();
     const route = useRoute();
@@ -64,22 +79,22 @@ export default defineComponent({
       let data = {
         password: formState.password,
         username: formState.username,
+        role:role.value?._id
       };
       // 注册
       axios
-        .post("/api/user", data)
+        .post('/api/user', data)
         .then((res) => {
           if (!res.data.code) {
-            router.push("/login");
+            router.push('/login');
           } else {
-            console.log("######");
+            console.log('######');
             console.log(res.data);
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      
     };
     const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
       console.log(errors);

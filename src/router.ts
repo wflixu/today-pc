@@ -18,6 +18,8 @@ import PostPage from './pages/Post.vue';
 
 import Chart from './pages/chart/Chart.vue';
 
+import User from  './pages/User.vue';
+
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 export const routes: Array<any> = [
@@ -65,6 +67,11 @@ export const routes: Array<any> = [
                 path: 'chart',
                 title: 'Chart',
                 component: Chart,
+            },
+            {
+                path: 'users',
+                title: 'Users',
+                component: User,
             },
         ]
     },
