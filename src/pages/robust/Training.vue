@@ -28,11 +28,11 @@ export default defineComponent({
     let time = computed(() => {
       return (train.end - train.start) / 1000;
     });
-    let timer = 0;
+    let timer:number;
     const onStart = () => {
       console.log('onstart');
       train.start = Date.now();
-      timer = setInterval(() => {
+      timer = window.setInterval(() => {
         train.end = Date.now();
       });
     };

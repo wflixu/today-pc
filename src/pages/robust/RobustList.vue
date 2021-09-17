@@ -53,18 +53,8 @@ export default defineComponent({
     let time = computed(() => {
       return (train.end - train.start) / 1000;
     });
-    let timer = 0;
-    const onStart = () => {
-      console.log('onstart');
-      train.start = Date.now();
-      timer = setInterval(() => {
-        train.end = Date.now();
-      });
-    };
+   
 
-    const onEnd = () => {
-      clearInterval(timer);
-    };
 
     const onSave = () => {
       let data = {
@@ -122,9 +112,6 @@ export default defineComponent({
       onList,
       records,
 
-      onStart,
-
-      onEnd,
       onSave,
 
       countTime,
