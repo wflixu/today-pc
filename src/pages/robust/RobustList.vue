@@ -13,7 +13,7 @@
           <div>运动：{{ item.name }}</div>
           <div>时间：{{ countTime(item) }}</div>
           <template v-if="item.countType == 'count'">
-            <div>次数：{{ (item, count) }}</div>
+            <div>次数：{{ item.count }}</div>
           </template>
         </li>
       </ul>
@@ -26,11 +26,11 @@ import moment from 'moment';
 import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import http from '../../common/http/index';
+import http, { IRes } from '../../common/http/index';
 
 export default defineComponent({
   setup() {
-    let records = ref([]);
+    let records = ref<Array<any>>([]);
 
     let exercises = ref([
       {
@@ -81,24 +81,19 @@ export default defineComponent({
     const onList = () => {
       http.get('/api/train').then((res) => {
         console.log(res);
-        if (res.code) {
-          console.log(res.msg);
+        let { code, msg, data } = res as unknown as IRes;
+        if (code) {
+          console.log(msg);
         } else {
-          console.log(res.data.list);
-          records.value = res.data.list;
+          console.log(data.list);
+          records.value = data.list;
         }
       });
     };
 
     const getExerciseList = () => {
       http.get('/api/train').then((res) => {
-        console.log(res);
-        if (res.code) {
-          console.log(res.msg);
-        } else {
-          console.log(res.data.list);
-          records.value = res.data.list;
-        }
+        let { code, msg, data } = res as unknown as IRes;
       });
     };
 

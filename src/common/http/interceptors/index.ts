@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { log } from "../log";
+
 import request from "./request/index";
 import response from "./response/index";
 
@@ -9,7 +9,7 @@ export const interceptor = {
 };
 
 export const runInterceptors = (instance:AxiosInstance) => {
-  log("[runInterceptors]", instance);
+  console.log("[runInterceptors]", instance);
 
   if (!instance) return;
   

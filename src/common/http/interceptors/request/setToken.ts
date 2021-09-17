@@ -1,10 +1,11 @@
-import { log } from "../../log";
+import { AxiosRequestConfig } from 'axios';
+
 // import store from "@/store/store";
 /*
   拦截器名称：全局设置请求的 token 内容
 */
-const setToken = (options) => {
-  log("[interceptor.request]setToken:", options);
+const setToken = (options: AxiosRequestConfig) => {
+  console.log("[interceptor.request]setToken:", options);
 
   if (!options.headers) {
     options.headers = {};

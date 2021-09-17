@@ -24,7 +24,7 @@
 import axios from 'axios';
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import http from '../../common/http';
+import http, { IRes } from '../../common/http';
 
 export default defineComponent({
   setup() {
@@ -34,7 +34,7 @@ export default defineComponent({
     const getData = () => {
       http
         .get('/api/user')
-        .then((res) => {
+        .then((res:any) => {
           console.log(res);
           let { code, data, msg } = res as unknown as IRes;
           if (code) {
