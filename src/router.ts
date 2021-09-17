@@ -18,8 +18,10 @@ import PostPage from './pages/Post.vue';
 
 import Chart from './pages/chart/Chart.vue';
 
-import User from  './pages/User.vue';
+import User from './pages/User.vue';
+import RobustList from './pages/robust/RobustList.vue';
 import Robust from './pages/robust/Robust.vue';
+import Training from './pages/robust/Training.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
@@ -32,7 +34,17 @@ export const routes: Array<any> = [
     },
     {
         path: '/robust',
-        component: Robust
+        component: Robust,
+        children: [
+            {
+                path: '',
+                component: RobustList
+            },
+            {
+                path: 'train',
+                component: Training
+            }
+        ]
     },
     {
         path: '/login',

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>用户管理</h2>
+    <h2>运动类型管理</h2>
     <div class="searchbox">
       <div class="left"></div>
       <div class="right">
@@ -20,17 +20,14 @@
   </div>
 </template>
 
- <script lang="ts">
-import { ref, defineComponent, reactive, onMounted } from 'vue';
-
-import axios, { AxiosResponse } from 'axios';
+<script lang="ts">
+import axios from 'axios';
+import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import http, { IRes } from '../common/http';
+import http from '../../common/http';
 
 export default defineComponent({
-  name: 'User',
-  props: {},
-  setup: () => {
+  setup() {
     const router = useRouter();
     let dataSource = ref([]);
 
@@ -107,16 +104,6 @@ export default defineComponent({
   },
 });
 </script>
- <style scoped lang="less">
-.table_actions {
-  display: flex;
-}
-.searchbox {
-  display: flex;
-  height: 48px;
-  align-items: center;
-  .left {
-    flex: 1;
-  }
-}
+
+<style scoped>
 </style>
