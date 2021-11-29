@@ -1,6 +1,6 @@
 <template>
   <div class="t-home min-h-full">
-    <div class="boxs bg-gray-50 rounded w-96 mx-auto">
+    <div class="boxs bg-gray-50 rounded w-64 mx-auto">
       <div class="card" @click="onClick('/admin')">
         <h3>控制台</h3>
         <p>管理系统</p>
@@ -8,6 +8,10 @@
       <div class="card" @click="onClick('/test')">
         <h3>api测试</h3>
         <p>api测试</p>
+      </div>
+      <div class="card" @click="onClick('/post')">
+        <h3>blog</h3>
+        <p>blog</p>
       </div>
       <div class="card" @click="onClick('/login')">
         <h3>login</h3>
@@ -57,14 +61,14 @@ export default defineComponent({
 .boxs {
   position: absolute;
 
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 600px;
-  height: 600px;
+  width: 400px;
+  height: 300px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3,1fr);
   grid-template-rows: 1fr 1fr;
 }
 .boxs:hover {

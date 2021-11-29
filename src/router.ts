@@ -11,7 +11,8 @@ import Sign from './pages/Sign.vue';
 
 import Test from './pages/Test.vue'
 
-import Post from './pages/blog/Post.vue';
+import PostEditor from './pages/blog/PostEditor.vue';
+import PostList from './pages/blog/PostList.vue';
 import PostDetail from './pages/blog/PostDetail.vue';
 
 import PostPage from './pages/Post.vue';
@@ -60,7 +61,11 @@ export const routes: Array<any> = [
     },
     {
         path: '/post',
-        component: Post
+        component: PostList
+    },
+    {
+        path: '/post/editor',
+        component: PostEditor
     },
     {
         path: '/post/:id',

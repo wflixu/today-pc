@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="page">
     <H2>{{ post.title }}</H2>
-    <p><a-button @click="clickEdit"> 编辑</a-button></p>
     <article>
       {{ post.body }}
     </article>
+    <footer>
+      <a-button @click="clickEdit"> 编辑</a-button>
+    </footer>
   </div>
 </template>
 
@@ -38,7 +40,7 @@ export default defineComponent({
 
     const clickEdit = () => {
         const { id } = route.params;
-        router.push(`/post?id=${id}`)
+        router.push(`/post/editor?id=${id}`)
     };
 
     return {
