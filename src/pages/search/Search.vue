@@ -43,13 +43,9 @@ import toutiao from './../../assets/search/logo-toutiao.png';
 
 
 let keyword = ref('');
-
-let engine = ref('baidu');
-
 let storage = window.localStorage.getItem('engine');
-if (storage) {
-    engine.value == storage;
-}
+let engine = ref(storage ?? 'baidu');
+
 
 let showEngineList = ref(false)
 
