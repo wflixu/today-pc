@@ -4,9 +4,9 @@
             <div class="search-input">
                 <input type="text" :value="keyword" placeholder="请输入关键字" @input="onInput" @keyup.enter="onEnter">
                 <div class="search-selector " @click="showEngineList = true">
-                   <template v-if="currentEngine">
-                    <img :src="currentEngine.img" :alt="currentEngine.name" class="logo curr">
-                   </template>
+                    <template v-if="currentEngine">
+                        <img :src="currentEngine.img" :alt="currentEngine.name" class="logo curr">
+                    </template>
                     <div class="arrow">
                         <svg class="arrow-icon" width="10" height="6" viewBox="0 0 10 6" fill="#999"
                             xmlns="http://www.w3.org/2000/svg">
@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 
-import { computed, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, } from 'vue';
 import { Engine } from './type'
 import baidu from './../../assets/search/logo-baidu.png';
 import bing from './../../assets/search/logo-bing.png';
@@ -45,8 +45,13 @@ import toutiao from './../../assets/search/logo-toutiao.png';
 let keyword = ref('');
 
 let engine = ref('baidu');
-let showEngineList = ref(false)
 
+let storage = window.localStorage.getItem('engine');
+if (storage) {
+    engine.value == storage;
+}
+
+let showEngineList = ref(false)
 
 const engineList = ref<Engine[]>([
     {
@@ -79,7 +84,7 @@ const engineList = ref<Engine[]>([
         target: `https://so.toutiao.com/search?dvpf=pc&source=input&keyword=`,
         id: 'toutiao'
     },
-])
+]);
 let currentEngine = computed(() => {
     return engineList.value.find(item => {
         return item.id == engine.value
@@ -89,6 +94,7 @@ const onClickEngine = (item: any) => {
     console.warn(item);
 
     engine.value = item.id;
+    window.localStorage.setItem('engine', item.id);
     showEngineList.value = false;
 }
 const onInput = (evt: any) => {
@@ -108,6 +114,7 @@ const onEnter = () => {
 
 
 
+
 </script>
 
 <style scoped lang="less">
@@ -118,7 +125,7 @@ const onEnter = () => {
     height: 100vh;
 
     .box {
-        margin-top: 20vh;
+        margin-top: 15vh;
         display: flex;
         justify-content: center;
     }
