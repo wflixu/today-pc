@@ -1,10 +1,11 @@
 import { defineConfig, PluginOption } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import WindiCSS from 'vite-plugin-windicss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), copyBuildFiles()],
+  plugins: [vue(), vueJsx(), copyBuildFiles(), WindiCSS(),],
   server: {
     cors: true,
     proxy: {
@@ -16,15 +17,15 @@ export default defineConfig({
       }
     }
   },
-  
+
 })
 
-function copyBuildFiles():PluginOption {
-  
+function copyBuildFiles(): PluginOption {
+
   return {
     name: 'copy-build-files', // 必须的，将会显示在 warning 和 error 中
-    apply: 'build' ,
-    closeBundle(){
+    apply: 'build',
+    closeBundle() {
       // console.warn('buildend');
       // const fse = require('fs-extra');
       // console.log('pwd',__dirname)
@@ -36,8 +37,8 @@ function copyBuildFiles():PluginOption {
       //   if (err) return console.error(err)
       //   console.log('success!')
       // })
-   
-      
+
+
     }
   }
 }

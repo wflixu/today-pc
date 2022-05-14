@@ -21,6 +21,10 @@
         <h3>sign-</h3>
         <p>sign-</p>
       </div>
+      <div class="card" @click="onClick('/search')">
+        <h3>search</h3>
+        <p>My Search</p>
+      </div>
     </div>
     <SiteFooter />
   </div>

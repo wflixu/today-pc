@@ -45,13 +45,5 @@ export default defineComponent({
   color: #1890ff;
 }
 
-.logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 16px;
-}
 
-.site-layout-background {
-  background: #fff;
-}
 </style>

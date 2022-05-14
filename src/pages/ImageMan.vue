@@ -12,6 +12,7 @@
           <upload-outlined></upload-outlined>
           Click to Upload
         </a-button>
+      
       </a-upload>
       <div>
           <a-table :dataSource="uploadedFileList" :columns="columns" >
@@ -21,13 +22,17 @@
               </template>
             
           </a-table>
+        
       </div>
+       <div>
+         <img />
+       </div>
     </div>
   </template>
   <script lang="ts">
   import { message } from "ant-design-vue";
   import { UploadOutlined } from "@ant-design/icons-vue";
-  import { defineComponent, onMounted, ref } from "vue";
+  import { defineComponent, onMounted, reactive, ref } from "vue";
   import axios from "axios";
   interface FileItem {
     uid: string;
@@ -42,6 +47,8 @@
     url: string;
     [key: string]: string;
   }
+
+
   
   interface FileInfo {
     file: FileItem;
@@ -62,15 +69,19 @@
           message.error(`${info.file.name} file upload failed.`);
         }
       };
+
+      let cur = reactive({
+
+      })
   
       const fileList = ref([]);
       const getFiles = async()=>{
-          let response = await axios.get("/file");
+          let response = await axios.get("/api/file");
           let res = response.data;
           
-          if (!res.data.code) {
+          if (res) {
           
-            return res.data.list  as Attach[];
+            return res as Attach[];
           } else {
            return null;
           }
@@ -84,7 +95,7 @@
               uploadedFileList.value = data.map(item=>{
                   return {
                       ...item,
-                      url: window.location.origin+item.url
+                      url: "http://127.0.0.1:7001/api/file/"+item._id
                   }
               });
             }
@@ -125,8 +136,8 @@
                       uploadedFileList.value = data;
                   }
               });
-          }
-        });
+          } 
+        }); 
       }
       return {
         fileList,
@@ -137,6 +148,7 @@
           authorization: "authorization-text",
         },
         handleChange,
+        cur
       };
     },
   });

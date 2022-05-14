@@ -26,6 +26,10 @@ import Training from './pages/robust/Training.vue';
 
 
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
+import ImageManVue from './pages/ImageMan.vue';
+import SearchVue from './pages/search/Search.vue';
+
+
 
 export const routes: Array<any> = [
     { path: '/', redirect: '/home' },
@@ -52,6 +56,10 @@ export const routes: Array<any> = [
         component: Login
     },
     {
+        path: '/search',
+        component: SearchVue
+    },
+    {
         path: '/sign',
         component: Sign
     },
@@ -75,6 +83,10 @@ export const routes: Array<any> = [
         path: '/admin',
         component: Admin,
         children: [
+            {
+                path: 'image', component: ImageManVue,
+                title: '图片管理'
+            },
             {
                 path: 'file', component: FileUpload,
                 title: '文件上传'

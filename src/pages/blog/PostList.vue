@@ -1,20 +1,25 @@
 <template>
-  <div class="post_list">
-    <div class="action flex justify-end mb-2">
+  <div class="post_list bg-gray-100">
+    <div class="action flex justify-end mb-2 bg-white h-10 items-center px-4">
       <a-button @click="LinkEditor">新增</a-button>
     </div>
-    <div
-      class="post"
-      v-for="item in postList"
-      :key="item._id"
-      @click="onDetail(item._id)"
-    >
-      <h2>{{ item.title }}</h2>
-      <p>{{ item.body }}</p>
-      <div class="flex justify-end">
-        <a-button size="small" type="danger" @click="deletePost(item)">删除</a-button>
-      </div>
-    </div>
+    <ul class="px-10  mt-10">
+      <li
+        class="post"
+        v-for="item in postList"
+        :key="item._id"
+        @click="onDetail(item._id)"
+      >
+        <h2 class="font-semibold text-size-$18">{{ item.title }}</h2>
+        <p>{{ item.body }}</p>
+        <div class="flex justify-between">
+          <span>{{ item.createdAt }}</span>
+          <a-button size="small" type="danger" @click="deletePost(item)"
+            >删除</a-button
+          >
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -105,9 +110,9 @@ export default defineComponent({
       console.log(id);
       router.push(`/post/${id}`);
     };
-    const LinkEditor = ()=>{
-       router.push(`/post/editor`);
-    }
+    const LinkEditor = () => {
+      router.push(`/post/editor`);
+    };
 
     return {
       post,
@@ -117,7 +122,7 @@ export default defineComponent({
       onChangeTitle,
       onInput,
       save,
-      
+
       postList,
       deletePost,
     };
@@ -127,9 +132,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .post_list {
-  background-color: antiquewhite;
   min-height: 100vh;
-  padding: 20px;
 }
 .post {
   padding: 10px;
@@ -138,6 +141,7 @@ export default defineComponent({
   margin-bottom: 10px;
   &:hover {
     cursor: pointer;
+    box-shadow: 0px 0px 10px #aaa;
   }
 }
 </style>
