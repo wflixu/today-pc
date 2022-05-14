@@ -2,9 +2,11 @@
     <div class="page">
         <div class="box">
             <div class="search-input">
-                <input type="text" :value="keyword" placeholder="请输入关键字" @input="onInput" @keyup.enter="onEnter" >
+                <input type="text" :value="keyword" placeholder="请输入关键字" @input="onInput" @keyup.enter="onEnter">
                 <div class="search-selector " @click="showEngineList = true">
-                    <img :src="currentEngine.img" alt="github" class="logo curr">
+                   <template v-if="currentEngine">
+                    <img :src="currentEngine.img" :alt="currentEngine.name" class="logo curr">
+                   </template>
                     <div class="arrow">
                         <svg class="arrow-icon" width="10" height="6" viewBox="0 0 10 6" fill="#999"
                             xmlns="http://www.w3.org/2000/svg">
@@ -32,6 +34,7 @@
 <script setup lang="ts">
 
 import { computed, reactive, ref } from 'vue';
+import { Engine } from './type'
 import baidu from './../../assets/search/logo-baidu.png';
 import bing from './../../assets/search/logo-bing.png';
 import npm from './../../assets/search/logo-npm.png';
@@ -45,7 +48,7 @@ let engine = ref('baidu');
 let showEngineList = ref(false)
 
 
-const engineList = ref([
+const engineList = ref<Engine[]>([
     {
         name: '百度',
         img: baidu,
@@ -82,14 +85,14 @@ let currentEngine = computed(() => {
         return item.id == engine.value
     })
 })
-const onClickEngine = (item) => {
+const onClickEngine = (item: any) => {
     console.warn(item);
 
     engine.value = item.id;
     showEngineList.value = false;
 }
-const onInput = (evt) => {
-    keyword.value = evt.target.value;
+const onInput = (evt: any) => {
+    keyword.value = evt.target?.value;
 }
 const onEnter = () => {
     if (keyword.value.trim().length < 1) {
@@ -97,17 +100,13 @@ const onEnter = () => {
     }
 
     if (currentEngine) {
-        let url = currentEngine.value.target + keyword.value;
+        let url = currentEngine?.value?.target + keyword.value;
         window.open(url, '_blank');
     }
 
 }
 
-const onTab = (evt)=>{
-     evt.target.focus();
-    console.warn('onTab',evt.target);
-    
-}
+
 
 </script>
 
