@@ -232,5 +232,20 @@ const onEnter = () => {
             }
         }
     }
+
+}
+
+@media screen and (max-width: 1360px) {
+    .page {
+        .search-input {
+            width: 90vw;
+
+            .engine-list {
+                width: 90vw;
+            }
+        }
+
+    }
+
 }
 </style>
