@@ -13,7 +13,7 @@
 <script lang="ts">
 import Foo from './../components/foo';
 import { computed, defineComponent, ref } from 'vue'
-import { useStore } from 'vuex';
+import {useMainStore} from './../store'
 
 
 export default defineComponent({
@@ -25,9 +25,9 @@ export default defineComponent({
       
     },
     setup () {
-        let store = useStore();
-        console.log(store.state.title);
-        let title = ref(store.state.title);
+        let store = useMainStore();
+        console.log(store.title);
+        let title = ref(store.title);
         let count = ref(0);
 
         let double = computed(()=>{

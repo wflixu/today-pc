@@ -16,6 +16,9 @@
                         </svg>
                     </div>
                 </div>
+                <div class="clear" v-if="showClear" @click="onClear">
+                    x
+                </div>
                 <ul class="engine-list" v-if="showEngineList">
                     <template v-for="item in engineList">
                         <li class="item" :class="{ 'active': engine == item.id }" @click="onClickEngine(item)">
@@ -48,6 +51,10 @@ let engine = ref(storage ?? 'baidu');
 
 
 let showEngineList = ref(false)
+
+const showClear = computed(() => {
+    return keyword.value.length > 0;
+})
 
 const engineList = ref<Engine[]>([
     {
@@ -108,6 +115,10 @@ const onEnter = () => {
 
 }
 
+const onClear = () => {
+    keyword.value = '';
+}
+
 
 
 
@@ -138,6 +149,26 @@ const onEnter = () => {
             padding-right: 40px;
             font-size: 20px;
         }
+
+        .clear {
+            position: absolute;
+            right: 16px;
+            top: 8px;
+            height: 20px;
+            width: 20px;
+            background-color: #C9CDD4;
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            &:hover {
+                cursor: pointer;
+                color: #1E80FF;
+            }
+        }
+
 
         .search-selector {
             height: 100%;

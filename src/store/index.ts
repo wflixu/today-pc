@@ -1,13 +1,13 @@
 
-import { createStore } from 'vuex';
+import { createPinia, defineStore } from 'pinia'
 
-const state = {
-    title: 'Today is the day!'
-}
 
-export default createStore({
-    state,
-    mutations: {},
-    actions: {},
-    modules: {},
-});
+export const pinia = createPinia();
+
+export const useMainStore = defineStore('main', {
+     state: ()=>{
+         return {
+             title:'Today is the day!'
+         }
+     }
+  })

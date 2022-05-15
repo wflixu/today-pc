@@ -3,18 +3,17 @@
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { mapGetters, mapState } from 'vuex';
+import { useMainStore } from './store'
 
 export default defineComponent({
   setup() {
-    return {};
-  },
-  computed: {
-    ...mapState(['title']),
-  },
-  mounted() {
-    console.log(this.title);
-    document.title = this.title;
+    let store = useMainStore();
+    onMounted(()=>{
+      document.title = store.title;
+    })
+    return {
+
+    };
   },
 });
 </script>
@@ -44,6 +43,4 @@ export default defineComponent({
 .trigger:hover {
   color: #1890ff;
 }
-
-
 </style>
