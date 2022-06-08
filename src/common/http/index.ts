@@ -11,6 +11,7 @@ export const requestConfig: AxiosRequestConfig = {
   baseURL: "",
   timeout: 100000,
 };
+export const apiBase = 'http://127.0.0.1:7001/api';
 
 let http = axios.create(requestConfig);
 
