@@ -43,6 +43,7 @@ import bing from './../../assets/search/logo-bing.png';
 import npm from './../../assets/search/logo-npm.png';
 import github from './../../assets/search/logo-github.png';
 import toutiao from './../../assets/search/logo-toutiao.png';
+import douban from './../../assets/search/logo-douban.png';
 
 
 let keyword = ref('');
@@ -86,6 +87,12 @@ const engineList = ref<Engine[]>([
         img: toutiao,
         target: `https://so.toutiao.com/search?dvpf=pc&source=input&keyword=`,
         id: 'toutiao'
+    },
+    {
+        name: '豆瓣',
+        img: douban ,
+        target: `https://search.douban.com/book/subject_search?search_text=`,
+        id: 'douban'
     },
 ]);
 let currentEngine = computed(() => {
