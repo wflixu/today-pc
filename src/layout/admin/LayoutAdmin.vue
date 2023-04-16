@@ -10,7 +10,6 @@
       >
         <a-menu-item v-for="menu in menus" :key="menu.key">
           <div>
-            <user-outlined />
             <span>{{ menu.title }}</span>
           </div>
         </a-menu-item>

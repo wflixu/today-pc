@@ -1,149 +1,136 @@
 <template>
-  <div
-    class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
-  >
-    <div class="max-w-md w-full space-y-8">
-      <div>
-        <img
-          class="mx-auto h-12 w-auto"
-          src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-          alt="Workflow"
-        />
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Sign in to your account
-        </h2>
-        <p class="mt-2 text-center text-sm text-gray-600">
-          Or
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-            start your 14-day free trial
-          </a>
-        </p>
+  <div class="login">
+    <div class="box">
+      <div class="box-left">
+        <img :src="ikon" alt="" srcset="" />
       </div>
-
-      <input type="hidden" name="remember" value="true" />
-      <div class="rounded-md shadow-sm -space-y-px">
-        <div>
-          <label for="email-address" class="sr-only">user name</label>
-          <input
-            id="username"
-            name="username"
-            v-model="formState.username"
-            type="text"
-            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="user name"
-          />
+      <div class="box-right">
+        <div class="title">
+          <span>today admin</span>
         </div>
-        <div>
-          <label for="password" class="sr-only">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            v-model="formState.password"
-            autocomplete="current-password"
-            required
-            class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Password"
-          />
+        <div class="field">
+          <div class="label">用户名</div>
+          <div class="value">
+            <a-input
+              size="large"
+              v-model:value="formState.username"
+              placeholder="请输入用户名"
+            />
+          </div>
         </div>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <input
-            id="remember_me"
-            name="remember_me"
-            type="checkbox"
-            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-          />
-          <label for="remember_me" class="ml-2 block text-sm text-gray-900">
-            Remember me
-          </label>
+        <div class="field">
+          <div class="label">密码</div>
+          <div class="value">
+            <a-input-password
+              size="large"
+              v-model:value="formState.password"
+              placeholder="请输入密码"
+            />
+          </div>
         </div>
-
-        <div class="text-sm">
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-            Forgot your password?
-          </a>
-        </div>
-      </div>
-
-      <div>
-        <button
+        <a-button
+          type="primary"
+          class="w-full"
+          size="large"
           @click="onClickSubmit"
-          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >登录</a-button
         >
-          <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-            <!-- Heroicon name: solid/lock-closed -->
-            <svg
-              class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </span>
-          Sign in
-        </button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import axios from "axios";
-import { defineComponent, reactive, ref, type UnwrapRef } from "vue";
+<script lang="ts" setup>
+import { reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
+import ikon from "@/assets/imgs/login-ikon.png?url";
+import { useAuthStore } from "@/store/auth";
 
 interface FormState {
   username: string;
   password: string;
 }
 
-export default defineComponent({
-  data() {
-    return {
-      username: "",
-      password: "",
-    };
-  },
-  setup() {
-    const formState: UnwrapRef<FormState> = reactive({
-      username: "lx",
-      password: "123",
-    });
-    const router = useRouter();
-
-    const onClickSubmit = () => {
-      console.log(formState);
-      let { username, password } = formState;
-      if (username && password) {
-        axios
-          .post("/api/user/access/login", {
-            username,
-            password,
-          })
-          .then((res) => {
-            if (!res.data.code) {
-              let { token } = res.data.data;
-              console.log(token);
-              router.push("/home");
-            }
-          });
-      }
-    };
-    return {
-      formState,
-      onClickSubmit,
-    };
-  },
+const formState: UnwrapRef<FormState> = reactive({
+  username: "test",
+  password: "666",
 });
+const router = useRouter();
+const authStore = useAuthStore();
+const onClickSubmit = () => {
+  console.log(formState);
+  let { username, password } = formState;
+  if (username && password) {
+    fetch("http://127.0.0.1:8443/passport/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      mode: "cors",
+      credentials: "omit", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res.data);
+        const { username, token } = res.data;
+        authStore.setUsername(username);
+        authStore.setToken(token);
+        router.push({ path: "/admin/dashboard" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.login {
+  height: 100vh;
+  background-image: url(./../../assets/imgs/bg-login.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .box {
+    width: 1200px;
+    height: 641px;
+    background: #ffffff;
+    border-radius: 12px;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 80px 120px 120px 80px;
+    gap: 120px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08),
+      0px 2px 6px 0px rgba(0, 0, 0, 0.06), 0px 4px 8px 2px rgba(0, 0, 0, 0.04);
+    &-left {
+      width: 480px;
+    }
+    &-right {
+      .title {
+        height: 138px;
+        display: flex;
+        align-items: center;
+        font-size: 48px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+      .field {
+        margin-bottom: 16px;
+        .label {
+          height: 36px;
+          display: flex;
+          align-items: center;
+          font-size: 20px;
+          font-weight: normal;
+        }
+      }
+      .w-full {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+</style>

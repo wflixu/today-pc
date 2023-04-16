@@ -6,7 +6,7 @@ import {
 
 import Home from "../pages/Home.vue";
 
-import Sign from "../pages/Sign.vue";
+import Sign from "../pages/passport/Sign.vue";
 
 import Test from "../pages/Test.vue";
 
