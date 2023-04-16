@@ -8,9 +8,11 @@
         @click="handleClick"
         v-model:selectedKeys="selectedKeys"
       >
-        <a-menu-item v-for="menu in menus" :key="menu.path">
-          <user-outlined />
-          <span>{{ menu.title }}</span>
+        <a-menu-item v-for="menu in menus" :key="menu.key">
+          <div>
+            <user-outlined />
+            <span>{{ menu.title }}</span>
+          </div>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -53,7 +55,8 @@ import {
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import { routes } from "../../router/index";
+import adminRoute from "@/pages/admin/route";
+import type { IMenu } from "@/pages/admin/type";
 
 export default defineComponent({
   components: {
@@ -64,11 +67,18 @@ export default defineComponent({
     MenuFoldOutlined,
   },
   setup() {
-    let adminMenus = routes.find((item) => {
-      return item.path == `/admin`;
-    });
-    console.log(adminMenus);
-    let menus = ref(adminMenus?.children || []);
+    console.log(adminRoute);
+
+    const menus = ref<IMenu[]>([]);
+    if (adminRoute.children) {
+      menus.value = adminRoute.children.map((item) => {
+        return {
+          title: item.meta?.title ?? item.path,
+          key: item.path,
+        } as IMenu;
+      });
+    }
+
     const router = useRouter();
     const route = useRoute();
     const handleClick = (e: any) => {

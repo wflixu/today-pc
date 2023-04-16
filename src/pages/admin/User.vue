@@ -31,7 +31,7 @@ import { ref, defineComponent, reactive, onMounted } from "vue";
 
 import axios from "axios";
 import { useRouter } from "vue-router";
-import http, { type IRes } from "../common/http";
+import http, { type IRes } from "../../common/http";
 
 export default defineComponent({
   name: "User",
