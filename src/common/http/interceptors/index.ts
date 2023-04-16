@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import type {  AxiosInstance } from "axios";
 
 import request from "./request/index";
 import response from "./response/index";

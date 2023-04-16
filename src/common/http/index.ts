@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import { runInterceptors } from "./interceptors/index";
 
 export const requestConfig: AxiosRequestConfig = {

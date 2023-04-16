@@ -1,5 +1,4 @@
-import { AxiosResponse } from "axios";
-import { IRes } from "../..";
+import type { AxiosResponse } from "axios";
 
 
 
@@ -9,7 +8,7 @@ import { IRes } from "../..";
 */
 const setResult = (result: AxiosResponse) => {
   console.log("[interceptor.response]setResult:", result);
-
+  
   // example: 根据实际业务处理
   if (result && result.data) {
     result = result.data ;

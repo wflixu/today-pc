@@ -1,35 +1,33 @@
 <template lang="">
+  <div>
+    <a-upload
+      v-model:file-list="fileList"
+      name="file"
+      :multiple="true"
+      action="/api/chunk"
+      :headers="headers"
+      @change="handleChange"
+    >
+      <a-button>
+        <upload-outlined></upload-outlined>
+        Click to Upload
+      </a-button>
+    </a-upload>
     <div>
-      <a-upload
-        v-model:file-list="fileList"
-        name="file"
-        :multiple="true"
-        action="/api/chunk"
-        :headers="headers"
-        @change="handleChange"
-      >
-        <a-button>
-          <upload-outlined></upload-outlined>
-          Click to Upload
-        </a-button>
-      </a-upload>
-      <div>
-          <a-table :dataSource="uploadedFileList" :columns="columns" >
-              <template #action="{record}">
-                  <a :href="url(record._id)" target="_blank" >查看</a>
-                  <a-button size="small" @click="onClickDetele(record)" >删除</a-button>
-              </template>
-            
-          </a-table>
-      </div>
+      <a-table :dataSource="uploadedFileList" :columns="columns">
+        <template #action="{ record }">
+          <a :href="url(record._id)" target="_blank">查看</a>
+          <a-button size="small" @click="onClickDetele(record)">删除</a-button>
+        </template>
+      </a-table>
     </div>
-  </template>
-  <script lang="ts">
+  </div>
+</template>
+<script lang="ts">
 import { message } from "ant-design-vue";
 import { UploadOutlined } from "@ant-design/icons-vue";
 import { defineComponent, onMounted, ref } from "vue";
 import axios from "axios";
-import { apiBase } from './../common/http/'
 interface FileItem {
   uid: string;
   name?: string;
@@ -68,31 +66,27 @@ export default defineComponent({
     const getFiles = async () => {
       let response = await axios.get("/api/chunk");
       let res = response.data;
-       debugger;
+      debugger;
       if (!res.code) {
-
         return res.data as Attach[];
       } else {
         return null;
       }
-
-    }
+    };
     let uploadedFileList = ref<Attach[]>([]);
     onMounted(() => {
-      getFiles().then(data => {
+      getFiles().then((data) => {
         if (data) {
-          console.log('data:', data);
-          uploadedFileList.value = data.map(item => {
+          console.log("data:", data);
+          uploadedFileList.value = data.map((item) => {
             return {
               ...item,
-              url: window.location.origin + item.url
-            }
+              url: window.location.origin + item.url,
+            };
           });
         }
-      })
+      });
     });
-
-
 
     const columns = [
       {
@@ -108,30 +102,31 @@ export default defineComponent({
       {
         title: "操作",
         dataIndex: "action",
-        slots: { customRender: 'action' },
+        slots: { customRender: "action" },
       },
-
     ];
 
     const onClickDetele = (record: Attach) => {
-      axios.delete("/api/upload", {
-        data: {
-          id: record._id
-        }
-      }).then((res) => {
-        console.log(res.data);
-        if (!res.data.code) {
-          getFiles().then(data => {
-            if (data) {
-              uploadedFileList.value = data;
-            }
-          });
-        }
-      });
-    }
-    const url = (id:string):string => {
-      return  `/api/chunk/${id}`;
-      }
+      axios
+        .delete("/api/upload", {
+          data: {
+            id: record._id,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          if (!res.data.code) {
+            getFiles().then((data) => {
+              if (data) {
+                uploadedFileList.value = data;
+              }
+            });
+          }
+        });
+    };
+    const url = (id: string): string => {
+      return `/api/chunk/${id}`;
+    };
     return {
       fileList,
       uploadedFileList,
@@ -146,5 +141,4 @@ export default defineComponent({
   },
 });
 </script>
-  <style lang=""></style>
-  
+<style lang=""></style>

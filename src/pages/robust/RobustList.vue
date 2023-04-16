@@ -9,7 +9,12 @@
     <h1>运动记录：</h1>
     <div class="list">
       <ul class="cells">
-        <li class="cell" v-for="item in records" :key="item._id" @click="onClick">
+        <li
+          class="cell"
+          v-for="item in records"
+          :key="item._id"
+          @click="onClick"
+        >
           <div>运动：{{ item.name }}</div>
           <div>时间：{{ countTime(item) }}</div>
           <template v-if="item.countType == 'count'">
@@ -22,11 +27,11 @@
 </template>
 
 <script lang="ts">
-import moment from 'moment';
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import moment from "moment";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 
-import http, { IRes } from '../../common/http/index';
+import http, { type IRes } from "../../common/http/index";
 
 export default defineComponent({
   setup() {
@@ -34,18 +39,18 @@ export default defineComponent({
 
     let exercises = ref([
       {
-        name: '平板支撑',
+        name: "平板支撑",
         id: 1,
       },
       {
-        name: '俯卧撑',
+        name: "俯卧撑",
         id: 1,
       },
     ]);
 
     const train = reactive({
-      name: '平板支撑',
-      countType: 'time',
+      name: "平板支撑",
+      countType: "time",
       start: Date.now(),
       end: Date.now(),
     });
@@ -53,23 +58,21 @@ export default defineComponent({
     let time = computed(() => {
       return (train.end - train.start) / 1000;
     });
-   
-
 
     const onSave = () => {
       let data = {
         name: train.name,
         start: new Date(train.start),
         end: new Date(train.end),
-        countType: 'count',
+        countType: "count",
       };
-      http.post('/api/train', data).then((res) => {
+      http.post("/api/train", data).then((res) => {
         console.log(res);
       });
     };
 
     const onList = () => {
-      http.get('/api/train').then((res) => {
+      http.get("/api/train").then((res) => {
         console.log(res);
         let { code, msg, data } = res as unknown as IRes;
         if (code) {
@@ -82,7 +85,7 @@ export default defineComponent({
     };
 
     const getExerciseList = () => {
-      http.get('/api/train').then((res) => {
+      http.get("/api/train").then((res) => {
         let { code, msg, data } = res as unknown as IRes;
       });
     };
@@ -95,12 +98,12 @@ export default defineComponent({
     const Router = useRouter();
 
     const onClick = () => {
-      Router.push('/robust/train');
+      Router.push("/robust/train");
     };
 
     let countTime = (item: { start: string; end: string }) => {
       let { start, end } = item;
-      let num = moment(end).diff(start, 'minutes');
+      let num = moment(end).diff(start, "minutes");
       return num;
     };
 

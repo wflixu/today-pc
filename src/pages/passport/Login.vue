@@ -98,7 +98,7 @@
 
 <script lang="ts">
 import axios from "axios";
-import { defineComponent, reactive, ref, UnwrapRef } from "vue";
+import { defineComponent, reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 
 interface FormState {
@@ -114,7 +114,6 @@ export default defineComponent({
     };
   },
   setup() {
-
     const formState: UnwrapRef<FormState> = reactive({
       username: "lx",
       password: "123",
@@ -131,12 +130,11 @@ export default defineComponent({
             password,
           })
           .then((res) => {
-             if(!res.data.code){
-               let { token } =  res.data.data;
-               console.log(token);
-               router.push('/home');
-               
-             }
+            if (!res.data.code) {
+              let { token } = res.data.data;
+              console.log(token);
+              router.push("/home");
+            }
           });
       }
     };

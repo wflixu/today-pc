@@ -11,24 +11,30 @@
     <a-table :dataSource="dataSource" :columns="columns">
       <template #action="{ record }">
         <div class="table_actions">
-          <a-button type="link" size="small" @click="onDeteleRecord(record)">查看</a-button>
-          <a-button type="link" size="small" @click="onDeteleRecord(record)">编辑</a-button>
-          <a-button type="link" size="small" @click="onDeteleRecord(record)">删除</a-button>
+          <a-button type="link" size="small" @click="onDeteleRecord(record)"
+            >查看</a-button
+          >
+          <a-button type="link" size="small" @click="onDeteleRecord(record)"
+            >编辑</a-button
+          >
+          <a-button type="link" size="small" @click="onDeteleRecord(record)"
+            >删除</a-button
+          >
         </div>
       </template>
     </a-table>
   </div>
 </template>
 
- <script lang="ts">
-import { ref, defineComponent, reactive, onMounted } from 'vue';
+<script lang="ts">
+import { ref, defineComponent, reactive, onMounted } from "vue";
 
-import axios, { AxiosResponse } from 'axios';
-import { useRouter } from 'vue-router';
-import http, { IRes } from '../common/http';
+import axios from "axios";
+import { useRouter } from "vue-router";
+import http, { type IRes } from "../common/http";
 
 export default defineComponent({
-  name: 'User',
+  name: "User",
   props: {},
   setup: () => {
     const router = useRouter();
@@ -36,7 +42,7 @@ export default defineComponent({
 
     const getData = () => {
       http
-        .get('/api/user')
+        .get("/api/user")
         .then((res) => {
           console.log(res);
           let { code, data, msg } = res as unknown as IRes;
@@ -63,7 +69,7 @@ export default defineComponent({
       console.log(record);
 
       axios
-        .delete('/api/user', {
+        .delete("/api/user", {
           data: {
             id: record._id,
           },
@@ -72,7 +78,7 @@ export default defineComponent({
     };
 
     const onAddUser = () => {
-      router.push('/sign');
+      router.push("/sign");
     };
 
     return {
@@ -83,31 +89,31 @@ export default defineComponent({
 
       columns: [
         {
-          title: '姓名',
-          dataIndex: 'username',
-          key: 'username',
+          title: "姓名",
+          dataIndex: "username",
+          key: "username",
         },
         {
-          title: '电话',
-          dataIndex: 'mobile',
-          key: 'mobile',
+          title: "电话",
+          dataIndex: "mobile",
+          key: "mobile",
         },
         {
-          title: '角色',
-          dataIndex: 'role',
-          key: 'role',
+          title: "角色",
+          dataIndex: "role",
+          key: "role",
         },
         {
-          title: '操作',
-          dataIndex: 'action',
-          slots: { customRender: 'action' },
+          title: "操作",
+          dataIndex: "action",
+          slots: { customRender: "action" },
         },
       ],
     };
   },
 });
 </script>
- <style scoped lang="less">
+<style scoped lang="less">
 .table_actions {
   display: flex;
 }
