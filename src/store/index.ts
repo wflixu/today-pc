@@ -1,13 +1,11 @@
+import { createPinia, defineStore } from "pinia";
 
-import { createStore } from 'vuex';
+export const pinia = createPinia();
 
-const state = {
-    title: 'tsx vue3 vite'
-}
-
-export default createStore({
-    state,
-    mutations: {},
-    actions: {},
-    modules: {},
+export const useMainStore = defineStore("main", {
+  state: () => {
+    return {
+      title: "Today is the day!",
+    };
+  },
 });

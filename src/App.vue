@@ -2,10 +2,15 @@
   <router-view></router-view>
 </template>
 <script lang="ts">
+import { defineComponent, onMounted, ref } from 'vue';
+import { useMainStore } from './store'
 
-import { defineComponent, ref } from "vue";
 export default defineComponent({
   setup() {
+    let store = useMainStore();
+    onMounted(()=>{
+      document.title = store.title;
+    })
     return {
 
     };
@@ -37,15 +42,5 @@ export default defineComponent({
 
 .trigger:hover {
   color: #1890ff;
-}
-
-.logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 16px;
-}
-
-.site-layout-background {
-  background: #fff;
 }
 </style>

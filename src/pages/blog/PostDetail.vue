@@ -1,26 +1,27 @@
 <template>
-  <div>
-    <H2>{{ post.title }}</H2>
-    <p><a-button @click="clickEdit"> 编辑</a-button></p>
-    <article>
-      {{ post.body }}
+  <div class="page bg-gray-100">
+    <article  class="post">
+      <H2 class="font-semibold text-4xl  mb-8">{{ post.title }}</H2>
+      <section class="text-lg">
+        {{ post.body }}
+      </section>
     </article>
   </div>
 </template>
 
 <script lang="ts">
-import axios from "axios";
+import axios from 'axios';
 
-import { defineComponent, onMounted, reactive } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { defineComponent, onMounted, reactive } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
     const post = reactive({
-      title: "",
-      body: "",
+      title: '',
+      body: '',
     });
 
     onMounted(() => {
@@ -37,8 +38,8 @@ export default defineComponent({
     });
 
     const clickEdit = () => {
-        const { id } = route.params;
-        router.push(`/post?id=${id}`)
+      const { id } = route.params;
+      router.push(`/post/editor?id=${id}`);
     };
 
     return {
@@ -49,5 +50,17 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .page {
+    min-height: 100vh;
+    .post {
+      width:1200px;
+      margin: 20px auto;
+      background-color: white;
+      border: 1px solid #ddd;
+      box-shadow: 0 0 5px #ddd;
+      border-radius: 4px;
+      padding: 40px;
+    }
+  }
 </style>

@@ -40,9 +40,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, UnwrapRef } from "vue";
+import { defineComponent, reactive, ref, type UnwrapRef } from "vue";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
+import type { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 
@@ -51,8 +51,31 @@ interface FormState {
   password: string;
 }
 
+interface IRole {
+  _id: string;
+  name: string;
+  [prop: string]: any;
+}
+
 export default defineComponent({
   setup() {
+    //  获取角色
+
+    let role = ref<IRole>();
+
+    axios.get("/api/role").then((res) => {
+      console.log(res);
+      if (!res.data.code) {
+        role.value = res.data.data.list[0];
+      }
+      // if (!res.data.code) {
+      //   router.push('/login');
+      // } else {
+      //   console.log('######');
+      //   console.log(res.data);
+      // }
+    });
+
     const formState: UnwrapRef<FormState> = reactive({
       username: "lx",
       password: "123",
@@ -64,6 +87,7 @@ export default defineComponent({
       let data = {
         password: formState.password,
         username: formState.username,
+        role: role.value?._id,
       };
       // 注册
       axios
@@ -79,7 +103,6 @@ export default defineComponent({
         .catch((err) => {
           console.log(err);
         });
-      
     };
     const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
       console.log(errors);
