@@ -1,7 +1,7 @@
 import Home from "../pages/Home.vue";
 import About from "../pages/About.vue";
 import FileUpload from "../pages/FileUpload.vue";
-import Admin from "../pages/Admin.vue";
+import Admin from "../pages/admin/Admin.vue";
 import Play from "../pages/Play.vue";
 import Tailwind from "../pages/Tailwind.vue";
 
@@ -166,7 +166,7 @@ export const allRoutes = [...defaultRouterList, ...asyncRouterList];
 export const router = createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHashHistory(),
-  routes, // short for `routes: routes`
+  routes:allRoutes, // short for `routes: routes`
   strict: true,
   sensitive: true,
 });

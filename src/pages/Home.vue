@@ -13,7 +13,7 @@
         <h3>blog</h3>
         <p>blog</p>
       </div>
-      <div class="card" @click="onClick('/login')">
+      <div class="card" @click="onClick('/passport/login')">
         <h3>login</h3>
         <p>login</p>
       </div>
@@ -30,12 +30,12 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import SiteFooter from './../components/SiteFooter.vue';
+import { ref, defineComponent } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import SiteFooter from "./../components/SiteFooter.vue";
 
 export default defineComponent({
-  name: 'app-home',
+  name: "app-home",
   props: {},
   components: {
     SiteFooter,
@@ -59,7 +59,7 @@ export default defineComponent({
 <style scoped lang="less">
 .t-home {
   position: relative;
-  background-image: url('./../assets/bg.jpg');
+  background-image: url("./../assets/bg.jpg");
   background-size: cover;
 }
 .boxs {
@@ -72,7 +72,7 @@ export default defineComponent({
   width: 400px;
   height: 300px;
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
 }
 .boxs:hover {
@@ -81,7 +81,6 @@ export default defineComponent({
 }
 
 .card {
-
   border: 1px solid #ddd;
   display: inline-flex;
   flex-direction: column;
