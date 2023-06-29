@@ -45,38 +45,33 @@ import { reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
 import { useAuthStore } from "@/store/auth";
-
+import http from "./../../common/http";
 interface FormState {
   username: string;
   password: string;
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  username: "test",
-  password: "666",
+  username: "lx",
+  password: "123",
 });
 const router = useRouter();
 const authStore = useAuthStore();
+
 const onClickSubmit = () => {
   console.log(formState);
   let { username, password } = formState;
   if (username && password) {
-    fetch("http://127.0.0.1:8443/passport/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      mode: "cors",
-      credentials: "omit", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res.data);
-        const { username, token } = res.data;
-        authStore.setUsername(username);
-        authStore.setToken(token);
-        router.push({ path: "/admin/dashboard" });
+    http
+      .post("/passport/login", { username, password })
+      .then(({ code, data }) => {
+        if (code == 200) {
+          const { user, token } = data;
+          authStore.setUser(user);
+          authStore.setToken(token);
+          const backRoute = window.localStorage.getItem("back-route");
+          router.push({ path: backRoute ?? "/home" });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -109,6 +104,7 @@ const onClickSubmit = () => {
       width: 480px;
     }
     &-right {
+      flex: 1;
       .title {
         height: 138px;
         display: flex;

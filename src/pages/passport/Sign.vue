@@ -1,123 +1,188 @@
 <template>
-  <div class="sign bg-white w-full min-h-full">
-    <div class="box my-40 mx-auto w-96 rounded p-9">
-      <a-form
-        layout="inline"
-        :model="formState"
-        @finish="handleFinish"
-        @finishFailed="handleFinishFailed"
-      >
-        <a-form-item>
-          <a-input v-model:value="formState.username" placeholder="Username">
-            <template #prefix
-              ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
-            /></template>
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-input
-            v-model:value="formState.password"
-            type="password"
-            placeholder="Password"
-          >
-            <template #prefix
-              ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
-            /></template>
-          </a-input>
-        </a-form-item>
-        <a-form-item>
-          <a-button
-            type="primary"
-            html-type="submit"
-            :disabled="formState.username === '' || formState.password === ''"
-          >
-            Sign in
-          </a-button>
-        </a-form-item>
-      </a-form>
+  <div class="sign">
+    <div class="box">
+      <div class="box-left">
+        <img :src="ikon" alt="" srcset="" />
+      </div>
+      <div class="box-right">
+        <div class="title">
+          <span>用户注册</span>
+        </div>
+        <div class="field">
+          <div class="label">用户名</div>
+          <div class="value">
+            <a-input
+              size="large"
+              v-model:value="formState.username"
+              placeholder="请输入用户名"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">密码</div>
+          <div class="value">
+            <a-input-password
+              size="large"
+              v-model:value="formState.password"
+              placeholder="请输入密码"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">电话号码</div>
+          <div class="value">
+            <a-input
+              size="large"
+              v-model:value="formState.phone"
+              placeholder="请输入电话号码"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">验证码</div>
+          <div class="value">
+            <a-input
+              size="large"
+              :max-length="4"
+              v-model:value="formState.code"
+              placeholder="请输入验证码"
+            />
+            <a-button
+              @click="onClickGetCode"
+              :disabled="!codeButtonActive"
+              class="ml-3"
+              type=""
+              >获取验证码</a-button
+            >
+          </div>
+        </div>
+        <a-button
+          type="primary"
+          class="w-full"
+          size="large"
+          @click="onClickSubmit"
+          >注册</a-button
+        >
+      </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref, type UnwrapRef } from "vue";
-import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import type { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
-import axios from "axios";
-import { useRoute, useRouter } from "vue-router";
-
+<script lang="ts" setup>
+import { computed, reactive, ref, unref, type UnwrapRef } from "vue";
+import { useRouter } from "vue-router";
+import ikon from "@/assets/imgs/login-ikon.png?url";
+import { useAuthStore } from "@/store/auth";
+import http from "./../../common/http/index";
 interface FormState {
   username: string;
   password: string;
+  phone: string;
+  code: string;
 }
 
-interface IRole {
-  _id: string;
-  name: string;
-  [prop: string]: any;
-}
-
-export default defineComponent({
-  setup() {
-    //  获取角色
-
-    let role = ref<IRole>();
-
-    axios.get("/api/role").then((res) => {
-      console.log(res);
-      if (!res.data.code) {
-        role.value = res.data.data.list[0];
-      }
-      // if (!res.data.code) {
-      //   router.push('/login');
-      // } else {
-      //   console.log('######');
-      //   console.log(res.data);
-      // }
-    });
-
-    const formState: UnwrapRef<FormState> = reactive({
-      username: "lx",
-      password: "123",
-    });
-    const router = useRouter();
-    const route = useRoute();
-    const handleFinish = (values: FormState) => {
-      console.log(values, formState);
-      let data = {
-        password: formState.password,
-        username: formState.username,
-        role: role.value?._id,
-      };
-      // 注册
-      axios
-        .post("/api/user", data)
-        .then((res) => {
-          if (!res.data.code) {
-            router.push("/login");
-          } else {
-            console.log("######");
-            console.log(res.data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    const handleFinishFailed = (errors: ValidateErrorEntity<FormState>) => {
-      console.log(errors);
-    };
-    return {
-      formState,
-      handleFinish,
-      handleFinishFailed,
-    };
-  },
-  components: {
-    UserOutlined,
-    LockOutlined,
-  },
+const formState: UnwrapRef<FormState> = reactive({
+  username: "test",
+  password: "666",
+  phone: "",
+  code: "",
 });
+
+const isCode = ref(false);
+
+const codeButtonActive = computed(() => {
+  return !isCode.value && !!formState.phone;
+});
+
+const onClickGetCode = () => {
+  if (unref(codeButtonActive)) {
+    http.post("/passport/sms", { phone: formState.phone }).then((res) => {});
+  }
+};
+
+const router = useRouter();
+const authStore = useAuthStore();
+
+const onClickSubmit = () => {
+  console.log(formState);
+  return;
+  let { username, password } = formState;
+
+  if (username && password) {
+    fetch("http://127.0.0.1:8443/passport/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+      mode: "cors",
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((res) => {
+        console.log(res.data);
+        const { username, token } = res.data;
+        authStore.setUsername(username);
+        authStore.setToken(token);
+        router.push({ path: "/admin/dashboard" });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.sign {
+  height: 100vh;
+  background-image: url(./../../assets/imgs/bg-login.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .box {
+    width: 1200px;
+    height: 641px;
+    background: #ffffff;
+    border-radius: 12px;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 80px 120px 120px 80px;
+    gap: 120px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08),
+      0px 2px 6px 0px rgba(0, 0, 0, 0.06), 0px 4px 8px 2px rgba(0, 0, 0, 0.04);
+    &-left {
+      width: 480px;
+    }
+    &-right {
+      flex: 1;
+      .title {
+        height: 138px;
+        display: flex;
+        align-items: center;
+        font-size: 48px;
+        font-weight: 600;
+        margin-bottom: 20px;
+      }
+      .field {
+        margin-bottom: 8px;
+        .label {
+          height: 36px;
+          display: flex;
+          align-items: center;
+          font-size: 20px;
+          font-weight: normal;
+        }
+        .value {
+          display: flex;
+        }
+      }
+      .w-full {
+        margin-top: 20px;
+      }
+    }
+  }
+}
+</style>
