@@ -52,8 +52,8 @@ interface FormState {
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  username: "lx",
-  password: "123",
+  username: "",
+  password: "",
 });
 const router = useRouter();
 const authStore = useAuthStore();
