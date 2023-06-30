@@ -10,10 +10,12 @@ export const passportRoute: RouteRecordRaw = {
   children: [
     {
       path: 'login',
+      name: 'Login',
       component: Login,
     },
     {
       path: 'sign',
+      name: 'Sign',
       component: Sign,
     },
   ],

@@ -9,7 +9,7 @@ export const interceptor = {
 };
 
 export const runInterceptors = (instance:AxiosInstance) => {
-  console.log("[runInterceptors]", instance);
+  // console.log("[runInterceptors]", instance);
 
   if (!instance) return;
   

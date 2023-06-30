@@ -1,15 +1,16 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { runInterceptors } from "./interceptors/index";
 
+const apiHost = import.meta.env.VITE_API_HOST;
+
 export const requestConfig: AxiosRequestConfig = {
   validateStatus: (status) => {
     console.log("validateStatus", status);
     return true;
   },
-  baseURL: "http://127.0.0.1:8443",
+  baseURL: apiHost,
   timeout: 100000,
 };
-export const apiBase = "http://127.0.0.1:7001/api";
 
 export interface IRes<T> {
   code: number;

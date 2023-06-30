@@ -1,3 +1,4 @@
+
 import {
   type RouteRecordRaw,
   createRouter,
@@ -6,7 +7,6 @@ import {
 
 import Home from "../pages/Home.vue";
 
-import Sign from "../pages/passport/Sign.vue";
 
 import Test from "../pages/Test.vue";
 
@@ -68,10 +68,7 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     path: "/search",
     component: SearchVue,
   },
-  {
-    path: "/sign",
-    component: Sign,
-  },
+
   {
     path: "/test",
     component: Test,
@@ -115,3 +112,7 @@ export const router = createRouter({
   strict: true,
   sensitive: true,
 });
+
+
+
+
