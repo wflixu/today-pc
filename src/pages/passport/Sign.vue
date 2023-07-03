@@ -73,7 +73,8 @@ import { computed, reactive, ref, unref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
 import { useAuthStore } from "@/store/auth";
-import http from "./../../common/http/index";
+import http, { type IRes } from "./../../common/http/index";
+import { message } from "ant-design-vue";
 interface FormState {
   username: string;
   password: string;
@@ -82,8 +83,8 @@ interface FormState {
 }
 
 const formState: UnwrapRef<FormState> = reactive({
-  username: "test",
-  password: "666",
+  username: "",
+  password: "",
   phone: "",
   code: "",
 });
@@ -96,35 +97,35 @@ const codeButtonActive = computed(() => {
 
 const onClickGetCode = () => {
   if (unref(codeButtonActive)) {
-    http.post("/passport/sms", { phone: formState.phone }).then((res) => {});
+    http.post("/passport/sms", { phone: formState.phone }).then((res: any) => {
+      if (res.code == 200) {
+        isCode.value = true;
+      }
+    });
   }
 };
 
 const router = useRouter();
-const authStore = useAuthStore();
 
 const onClickSubmit = () => {
   console.log(formState);
-  return;
-  let { username, password } = formState;
+  let { username, password, code, phone } = formState;
 
   if (username && password) {
-    fetch("http://127.0.0.1:8443/passport/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      mode: "cors",
-      credentials: "omit",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((res) => {
-        console.log(res.data);
-        const { username, token } = res.data;
-        authStore.setUsername(username);
-        authStore.setToken(token);
-        router.push({ path: "/admin/dashboard" });
+    http
+      .post("/passport/sign", {
+        username,
+        password,
+        phone,
+        code,
+      })
+      .then((res: any) => {
+        console.log(res);
+        if (res.code == 200) {
+          router.push({ path: "/passport/login" });
+        } else {
+          message.error(res.msg);
+        }
       })
       .catch((err) => {
         console.log(err);

@@ -14,15 +14,15 @@
         <p>blog</p>
       </div>
       <div class="card" @click="onClick('/passport/login')">
-        <h3>login</h3>
+        <h3>登录</h3>
         <p>login</p>
       </div>
-      <div class="card" @click="onClick('/sign')">
-        <h3>sign-</h3>
-        <p>sign-</p>
+      <div class="card" @click="onClick('/passport/sign')">
+        <h3>注册</h3>
+        <p>sign</p>
       </div>
       <div class="card" @click="onClick('/search')">
-        <h3>search</h3>
+        <h3>综合搜索</h3>
         <p>My Search</p>
       </div>
     </div>

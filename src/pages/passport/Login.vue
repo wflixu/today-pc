@@ -35,6 +35,9 @@
           @click="onClickSubmit"
           >登录</a-button
         >
+        <div class="mt-3 more">
+          <a-button @click="onGotoSign" type="link">注册</a-button>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +60,9 @@ const formState: UnwrapRef<FormState> = reactive({
 });
 const router = useRouter();
 const authStore = useAuthStore();
+const onGotoSign = () => {
+  router.push({ name: "Sign" });
+};
 
 const onClickSubmit = () => {
   console.log(formState);
@@ -125,6 +131,11 @@ const onClickSubmit = () => {
       }
       .w-full {
         margin-top: 20px;
+      }
+      .more {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
       }
     }
   }
