@@ -72,6 +72,7 @@ import npm from "./../../assets/search/logo-npm.png";
 import github from "./../../assets/search/logo-github.png";
 import toutiao from "./../../assets/search/logo-toutiao.png";
 import douban from "./../../assets/search/logo-douban.png";
+import movie from "./../../assets/search/logo-douban-movie.png";
 import avatar from "./../../assets/imgs/avatar-1.jpeg";
 import { useAuthStore } from "@/store/auth";
 
@@ -129,6 +130,12 @@ const engineList = ref<Engine[]>([
     img: douban,
     target: `https://search.douban.com/book/subject_search?search_text=`,
     id: "douban",
+  },
+  {
+    name: "电影",
+    img: movie,
+    target: `https://search.douban.com/movie/subject_search?search_text=`,
+    id: "movie",
   },
 ]);
 let currentEngine = computed(() => {
