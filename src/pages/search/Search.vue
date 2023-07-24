@@ -73,6 +73,7 @@ import github from "./../../assets/search/logo-github.png";
 import toutiao from "./../../assets/search/logo-toutiao.png";
 import douban from "./../../assets/search/logo-douban.png";
 import movie from "./../../assets/search/logo-douban-movie.png";
+import cargo from "./../../assets/search/logo-cargo.png";
 import avatar from "./../../assets/imgs/avatar-1.jpeg";
 import { useAuthStore } from "@/store/auth";
 
@@ -136,6 +137,12 @@ const engineList = ref<Engine[]>([
     img: movie,
     target: `https://search.douban.com/movie/subject_search?search_text=`,
     id: "movie",
+  },
+  {
+    name: "Cargo",
+    img: cargo,
+    target: `https://crates.io/search?q=`,
+    id: "cargo",
   },
 ]);
 let currentEngine = computed(() => {
