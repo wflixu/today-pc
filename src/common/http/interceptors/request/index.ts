@@ -10,6 +10,6 @@ import setToken from "./setToken";
 export default [
   // setSecurityInformation,
   // setSignature,
-  // setToken,
+  setToken,
   // setLoading
 ];

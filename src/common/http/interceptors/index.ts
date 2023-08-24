@@ -14,9 +14,9 @@ export const runInterceptors = (instance:AxiosInstance) => {
   if (!instance) return;
   
   // // 设置请求拦截器
-  // for (const key in request) {
-  //   instance.interceptors.request.use((config) => request[key](config));
-  // }
+  for (const key in request) {
+    instance.interceptors.request.use((config) => request[key](config));
+  }
 
   // 设置响应拦截器
   for (const key in response) {
