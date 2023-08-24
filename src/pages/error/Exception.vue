@@ -12,7 +12,7 @@
 import result403 from "@/assets/svg/result-403.svg?url";
 import result404 from "@/assets/svg/result-404.svg?url";
 import result500 from "@/assets/svg/result-500.svg?url";
-import resultWifi from "@/assets/svg/result-wifi.svg?url";
+import resultWifi from "@/assets/svg/result-500.svg?url";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 

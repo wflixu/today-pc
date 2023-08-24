@@ -14,15 +14,15 @@
         <p>blog</p>
       </div>
       <div class="card" @click="onClick('/passport/login')">
-        <h3>login</h3>
+        <h3>登录</h3>
         <p>login</p>
       </div>
-      <div class="card" @click="onClick('/sign')">
-        <h3>sign-</h3>
-        <p>sign-</p>
+      <div class="card" @click="onClick('/passport/sign')">
+        <h3>注册</h3>
+        <p>sign</p>
       </div>
       <div class="card" @click="onClick('/search')">
-        <h3>search</h3>
+        <h3>综合搜索</h3>
         <p>My Search</p>
       </div>
     </div>
@@ -30,6 +30,7 @@
   </div>
 </template>
 <script lang="ts">
+import { useAuthStore } from "@/store/auth";
 import { ref, defineComponent } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import SiteFooter from "./../components/SiteFooter.vue";
@@ -43,10 +44,10 @@ export default defineComponent({
   setup: () => {
     const router = useRouter();
     const route = useRoute();
-    // let token  = window.localStorage.getItem('token');
-    // if(!token){
-    //   router.push('/login');
-    // }
+    const authStore = useAuthStore();
+    if (!authStore.token) {
+      router.push("/passport/login");
+    }
     let onClick = (key: string) => {
       router.push(key);
     };

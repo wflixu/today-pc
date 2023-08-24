@@ -2,18 +2,19 @@
   <router-view></router-view>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import { useMainStore } from './store'
+import { defineComponent, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { useMainStore } from "./store";
 
 export default defineComponent({
   setup() {
     let store = useMainStore();
-    onMounted(()=>{
+    const route = useRoute();
+    console.log(route.path);
+    onMounted(() => {
       document.title = store.title;
-    })
-    return {
-
-    };
+    });
+    return {};
   },
 });
 </script>

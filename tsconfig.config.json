@@ -3,10 +3,12 @@
   "include": [
     "vite.config.*",
     "vitest.config.*",
+    "windi.config.*",
     "cypress.config.*"
   ],
   "compilerOptions": {
     "composite": true,
+    "outFile": "",
     "types": [
       "node"
     ]

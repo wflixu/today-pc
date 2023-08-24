@@ -1,5 +1,13 @@
 <template>
   <div class="page">
+    <div class="user">
+      <div class="avatar">
+        <img :src="imgUrl" alt="" />
+      </div>
+      <span class="name">
+        {{ username }}
+      </span>
+    </div>
     <div class="box">
       <div class="search-input">
         <input
@@ -64,6 +72,18 @@ import npm from "./../../assets/search/logo-npm.png";
 import github from "./../../assets/search/logo-github.png";
 import toutiao from "./../../assets/search/logo-toutiao.png";
 import douban from "./../../assets/search/logo-douban.png";
+import movie from "./../../assets/search/logo-douban-movie.png";
+import cargo from "./../../assets/search/logo-cargo.png";
+import avatar from "./../../assets/imgs/avatar-1.jpeg";
+import { useAuthStore } from "@/store/auth";
+
+const authStore = useAuthStore();
+const username = computed(() => {
+  return authStore.user?.name ?? "***";
+});
+const imgUrl = computed(() => {
+  return authStore.user?.imgUrl ?? avatar;
+});
 
 let keyword = ref("");
 let storage = window.localStorage.getItem("engine");
@@ -112,6 +132,18 @@ const engineList = ref<Engine[]>([
     target: `https://search.douban.com/book/subject_search?search_text=`,
     id: "douban",
   },
+  {
+    name: "电影",
+    img: movie,
+    target: `https://search.douban.com/movie/subject_search?search_text=`,
+    id: "movie",
+  },
+  {
+    name: "Cargo",
+    img: cargo,
+    target: `https://crates.io/search?q=`,
+    id: "cargo",
+  },
 ]);
 let currentEngine = computed(() => {
   return engineList.value.find((item) => {
@@ -150,7 +182,24 @@ const onClear = () => {
   background-image: url("./../../assets/bg.jpg");
   background-size: cover;
   height: 100vh;
-
+  .user {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    .avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .name {
+      margin-left: 12px;
+      font-size: 18px;
+    }
+  }
   .box {
     margin-top: 15vh;
     display: flex;
