@@ -47,7 +47,7 @@
 import { reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/stores/auth";
 import http from "./../../common/http";
 interface FormState {
   username: string;

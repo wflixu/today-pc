@@ -15,7 +15,7 @@
 <script lang="ts">
 import Foo from "../../components/foo";
 import { computed, defineComponent, ref } from "vue";
-import { useMainStore } from "../../store";
+import { useMainStore } from "../../stores";
 
 export default defineComponent({
   name: "page-play",

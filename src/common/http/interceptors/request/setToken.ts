@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { useAuthStore } from './../../../../store/auth';
+import { useAuthStore } from '@/stores/auth';
 import { AxiosRequestConfig } from "axios";
 
 // import store from "@/store/store";
