@@ -1,4 +1,3 @@
-
 import type {
   IConnection,
   IDatabase,
@@ -7,7 +6,23 @@ import type {
 } from "@/types/pgmate.interface";
 import type { IInnerTreeNode } from "today-ui";
 import { defineStore } from "pinia";
+import http from "@/common/http";
 
+export const useLayoutPgmateStore = defineStore({
+  id: "layoutPg",
+  state: () => ({
+    showCreateDbWin: false,
+  }),
+  getters: {},
+  actions: {
+    createDbStart() {
+      this.showCreateDbWin = true;
+    },
+    toggleShowDbCreate() {
+      this.showCreateDbWin = !this.showCreateDbWin;
+    },
+  },
+});
 
 export const useSystemStore = defineStore("pgmate", {
   state: () => ({
@@ -27,65 +42,68 @@ export const useSystemStore = defineStore("pgmate", {
     ] as IConnection[],
     currentTableRecords: [] as unknown[],
     currentTableColumns: [] as unknown[],
-  }),
-});
-// export const useSystemStore = defineStore('system', {
-//   state: () => ({
-//
-//   }),
-//   getters: {},
-//   actions: {
-//     setCurTableRecords(records: any[],state) {
-//       this.currentTableRecords = records;
-//     },
-//     delConnectionById(name: string) {
-//       this.connections = this.connections.filter((item) => item.name !== name);
-//     },
-//     addDbs(conn:string, dbs:IDatabase[]){
-//       this.dbs[conn] = dbs;
-//     },
-//     addSchemas(dbId:string, schemas:ISchema[]){
-//       this.schemas[dbId] = schemas;
-//     },
-//     addTables(schemaId:string, tables:ITable[]){
-//       this.tables[schemaId] = tables;
-//     },
-//     // id = conn + db + schema + table
-//     addRecords(id:string, records: any[]) {
-//        this.records[id] = records;
-//     },
-
-//     createDb() {
-
-//     }
-//   },
-//   persist: {
-//     enabled: true,
-//   },
-// });
-
-export const useLayoutAdminStore = defineStore({
-  id: "layoutAdmin",
-  state: () => ({
-    showCreateDbWin: false,
     activeNode: null as IInnerTreeNode | null,
   }),
-  getters: {},
-  actions: {
-    createDbStart() {
-      localStorage;
-      this.showCreateDbWin = true;
+  getters: {
+    curConnection(state): IConnection | undefined {
+      if (state.activeNode) {
+        let [conn] = state.activeNode.id.split("-");
+        return this.connections.find((item: IConnection) => item.name == conn);
+      }
     },
-    async creatDb(name: string) {
+  },
+  actions: {
+    setCurTableRecords(records: any[]) {
+      this.currentTableRecords = records;
+    },
+    delConnectionById(name: string) {
+      this.connections = this.connections.filter((item) => item.name !== name);
+    },
+    addDbs(conn: string, dbs: IDatabase[]) {
+      this.dbs[conn] = dbs;
+    },
+    addSchemas(dbId: string, schemas: ISchema[]) {
+      this.schemas[dbId] = schemas;
+    },
+    addTables(schemaId: string, tables: ITable[]) {
+      this.tables[schemaId] = tables;
+    },
+    // id = conn + db + schema + table
+    addRecords(id: string, records: any[]) {
+      this.records[id] = records;
+    },
+    async createDb(datname: string) {
       let conn = this.activeNode?.id ?? "xx";
-
-      console.log(conn, name);
+      console.log(conn, datname);
       try {
-        // const res = await invoke<number>("create_db", { conn, db: name });
-        // return res;
+        let res = await http.post("/pg/db", { conn, datname });
+        if (res.code == 200) {
+          return res.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async delDb(id: string) {
+      try {
+        let res = await http.delete(`/pg/db?id=${id}`);
+        if (res.code == 200) {
+          return res.data;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    async openDb(id: string) {
+      try {
+        let res = await http.get(`/pg/db?id=${id}`);
+        if (res.code == 200) {
+          return res.data;
+        }
       } catch (err) {
         console.log(err);
       }
     },
   },
+  persist: true,
 });

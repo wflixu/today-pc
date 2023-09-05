@@ -9,7 +9,7 @@ export interface IConnection {
 
 export interface IDatabase {
     id: string,
-    name:string,
+    datname:string,
 }
 export interface ISchema {
     id:string,

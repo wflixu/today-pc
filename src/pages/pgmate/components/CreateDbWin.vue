@@ -18,12 +18,12 @@
       >
         <a-form-item
           label="数据库名称"
-          name="name"
+          name="datname"
           :rules="[
             { required: true, message: 'Please input your connection name!' },
           ]"
         >
-          <a-input v-model:value="formState.name" />
+          <a-input v-model:value="formState.datname" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -32,17 +32,19 @@
 </template>
 
 <script setup lang="ts">
-import { useLayoutAdminStore } from "@/stores/pgmate";
+import { useLayoutPgmateStore, useSystemStore } from "@/stores/pgmate";
 import type { IConnection, IDatabase } from "@/types/pgmate.interface";
 import type { FormInstance } from "ant-design-vue";
 import { reactive, ref, watch } from "vue";
 import { message } from "ant-design-vue";
 const [messageApi, contextHolder] = message.useMessage();
-const layoutStore = useLayoutAdminStore();
+const layoutStore = useLayoutPgmateStore();
+const systemStore = useSystemStore();
+
 const open = ref(false);
 const connFormRef = ref<FormInstance | null>(null);
 const formState = reactive<IDatabase>({
-  name: ``,
+  datname: ``,
   id: "",
 });
 const onFinish = (values: any) => {
@@ -71,10 +73,11 @@ const handleOk = () => {
     .validate()
     .then((res) => {
       console.log(res);
-      layoutStore.creatDb(res.name).then((res: any) => {
-        if (res === 0) {
+      systemStore.createDb(res.datname).then((res: any) => {
+        if (res) {
           open.value = false;
           connFormRef.value?.resetFields();
+          layoutStore.toggleShowDbCreate();
         } else if (res == 4) {
           messageApi.error("数据库已经存在");
         } else {

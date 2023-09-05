@@ -1,6 +1,6 @@
 <template>
   <div class="admin-slider">
-    <div class="conn-list">
+    <div class="conn-list" @contextmenu="onContextMenu">
       <t-file-tree
         ref="fileTreeRef"
         :data="fileTreeData"
@@ -22,12 +22,17 @@ import type {
 
 import type { IInnerTreeNode } from "today-ui";
 
-import { useLayoutAdminStore } from "@/stores/pgmate";
+import { useLayoutPgmateStore } from "@/stores/pgmate";
+import http from "@/common/http";
 const fileTreeRef = ref();
 
 const systemStore = useSystemStore();
-const layoutStore = useLayoutAdminStore();
+const layoutStore = useLayoutPgmateStore();
 const deletingNode = ref<IInnerTreeNode>();
+
+const onContextMenu = (event: MouseEvent) => {
+  event.preventDefault();
+};
 
 const invoke = async (type: string, params: any) => {
   return [];
@@ -63,6 +68,7 @@ watch(
     deep: true,
   }
 );
+
 const expandedKeys = ref<string[]>([]);
 const selectedKeys = ref<string[]>([]);
 
@@ -85,27 +91,60 @@ const handleContextMeun = ({ key, node }: any) => {
     deleteConnection(node.value.id);
   }
   if (key == "del-db") {
-    deletingNode.value = node.value;
+    systemStore.activeNode = node.value;
     deleteDb(node.value.id);
   }
   if (key == "create-db") {
-    layoutStore.activeNode = node.value;
-    layoutStore.createDbStart();
+    systemStore.activeNode = node.value;
+    layoutStore.toggleShowDbCreate();
   }
 };
 
-const deleteDb = (id: string) => {
-  let [conn, db] = id.split("-");
-  invoke("del_db", { conn, db })
-    .then((res) => {
-      console.log(res);
-      if (res === 0) {
-        deleteTreeNode(id);
+const unsubscribe = systemStore.$onAction(
+  ({
+    name, // action 名称
+    store, // store 实例，类似 `someStore`
+    args, // 传递给 action 的参数数组
+    after, // 在 action 返回或解决后的钩子
+    onError, // action 抛出或拒绝的钩子
+  }) => {
+    // 为这个特定的 action 调用提供一个共享变量
+    const startTime = Date.now();
+    // 这将在执行 "store "的 action 之前触发。
+    console.log(`Start "${name}" with params [${args.join(", ")}].`);
+
+    // 这将在 action 成功并完全运行后触发。
+    // 它等待着任何返回的 promise
+    after((result) => {
+      if (name == "createDb") {
+        let connection = systemStore.curConnection;
+        if (connection) {
+          onConnect(connection);
+        }
       }
-    })
-    .catch((err) => {
-      console.log(err);
+      console.log(
+        `Finished "${name}" after ${
+          Date.now() - startTime
+        }ms.\nResult: ${result}.`
+      );
     });
+
+    // 如果 action 抛出或返回一个拒绝的 promise，这将触发
+    onError((error) => {
+      console.warn(
+        `Failed "${name}" after ${Date.now() - startTime}ms.\nError: ${error}.`
+      );
+    });
+  }
+);
+
+const deleteDb = (id: string) => {
+  systemStore.delDb(id).then((res) => {
+    console.log(res);
+    if (systemStore.curConnection) {
+      onConnect(systemStore.curConnection);
+    }
+  });
 };
 const deleteTreeNode = (id: string) => {
   fileTreeRef.value.treeFactory.removeNode(deletingNode.value);
@@ -151,7 +190,8 @@ const getTableColumn = async (params: any) => {
 
 const openDatabase = (id: string) => {
   const [name, db] = id.split("-");
-  invoke("open_db", { name, db })
+  systemStore
+    .openDb(id)
     .then((res) => {
       console.log(res);
       const treeData = fileTreeRef.value.treeFactory.treeData.value;
@@ -159,10 +199,10 @@ const openDatabase = (id: string) => {
         return item.id == id;
       });
       if (currrentNode) {
-        (res as string[]).forEach((item) => {
+        (res as { schema_name: string }[]).forEach(({ schema_name }) => {
           fileTreeRef.value.treeFactory.insertBefore(currrentNode, {
-            label: item,
-            id: `${currrentNode.id}-${item}`,
+            label: schema_name,
+            id: `${currrentNode.id}-${schema_name}`,
             isLeaf: true,
             contextMenu: [{ label: "打开", key: "open-schema" }],
           });
@@ -170,10 +210,10 @@ const openDatabase = (id: string) => {
       }
       systemStore.addSchemas(
         id,
-        (res as string[]).map((item) => {
+        (res as { schema_name: string }[]).map(({ schema_name }) => {
           return {
-            id: id + item,
-            name: item,
+            id: `${currrentNode.id}-${schema_name}`,
+            name: schema_name,
           };
         })
       );
@@ -181,6 +221,36 @@ const openDatabase = (id: string) => {
     .catch((err) => {
       console.log(err);
     });
+  // invoke("open_db", { name, db })
+  //   .then((res) => {
+  //     console.log(res);
+  //     const treeData = fileTreeRef.value.treeFactory.treeData.value;
+  //     const currrentNode = (treeData ?? []).find((item: any) => {
+  //       return item.id == id;
+  //     });
+  //     if (currrentNode) {
+  //       (res as string[]).forEach((item) => {
+  //         fileTreeRef.value.treeFactory.insertBefore(currrentNode, {
+  //           label: item,
+  //           id: `${currrentNode.id}-${item}`,
+  //           isLeaf: true,
+  //           contextMenu: [{ label: "打开", key: "open-schema" }],
+  //         });
+  //       });
+  //     }
+  //     systemStore.addSchemas(
+  //       id,
+  //       (res as string[]).map((item) => {
+  //         return {
+  //           id: id + item,
+  //           name: item,
+  //         };
+  //       })
+  //     );
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 };
 
 const openSchema = (id: string) => {
@@ -222,26 +292,26 @@ const openSchema = (id: string) => {
 
 const onConnect = (connection: IConnection) => {
   console.log(connection);
-
-  invoke("create_conn", {
-    name: connection.name,
-    host: connection.host,
-    port: connection.port,
-    database: connection.database,
-    username: connection.username,
-    password: connection.password,
-  })
-    .then((res) => {
-      console.log(res);
+  http
+    .post("/pg/connect", connection)
+    .then(({ code, data }) => {
+      if (code != 200) {
+        return;
+      }
       const treeData = fileTreeRef.value.treeFactory.treeData.value;
       const currrentNode = (treeData ?? []).find((item: any) => {
         return item.id == connection.name;
       });
+      fileTreeRef.value.treeFactory.treeData.value = treeData.filter(
+        (item: IInnerTreeNode) => {
+          return item.parentId != connection.name;
+        }
+      );
       if (currrentNode) {
-        (res as IDatabase[]).forEach(({ name }) => {
+        (data as unknown as IDatabase[]).forEach(({ datname }) => {
           fileTreeRef.value.treeFactory.insertBefore(currrentNode, {
-            label: name,
-            id: `${connection.name}-${name}`,
+            label: datname,
+            id: `${connection.name}-${datname}`,
             isLeaf: true,
             contextMenu: [
               { label: "打开", key: "open" },
@@ -249,7 +319,7 @@ const onConnect = (connection: IConnection) => {
             ],
           });
         });
-        systemStore.addDbs(connection.name, res as IDatabase[]);
+        systemStore.addDbs(connection.name, data as unknown as IDatabase[]);
       }
     })
     .catch((err) => {

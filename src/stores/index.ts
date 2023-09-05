@@ -1,8 +1,9 @@
 import { createPinia, defineStore } from "pinia";
-import piniaPersist from "pinia-plugin-persist";
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const pinia = createPinia();
-pinia.use(piniaPersist);
+
+
+pinia.use(piniaPluginPersistedstate);
 
 const useMainStore = defineStore("main", {
   state: () => {

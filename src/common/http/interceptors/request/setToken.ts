@@ -11,12 +11,15 @@ import { AxiosRequestConfig } from "axios";
 const setToken = (options: AxiosRequestConfig) => {
   console.log("[interceptor.request]setToken:", options);
    const authStore =  useAuthStore();
+
   if (!options.headers) {
     options.headers = {};
   }
   // // 考虑部分接口不需要使用 token，如用户登录接口（因为还没登录，没有 token）
   if (!options.noSignature) {
-    options.headers["Authorization"] = authStore.token ?? "";
+    console.warn('token', authStore.token);
+    
+    options.headers["Authorization"] =   authStore.token ?? "";
   }
 
   return options;
