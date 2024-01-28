@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { runInterceptors } from "./interceptors/index";
 
+
 export const apiHost = import.meta.env.VITE_API_HOST;
 
 export const requestConfig: AxiosRequestConfig = {

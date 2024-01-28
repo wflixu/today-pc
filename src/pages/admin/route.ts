@@ -7,6 +7,7 @@ import Play from "./Play.vue";
 import About from './About.vue'
 import Chart from "../chart/Chart.vue";
 import User from './User.vue'
+import AppManager from "./app/AppManager.vue";
 
 export const adminRoute: RouteRecordRaw = {
   path: "/admin",
@@ -35,6 +36,13 @@ export const adminRoute: RouteRecordRaw = {
       },
     },
     {
+      path: "appmanager",
+      component: AppManager,
+      meta: {
+        title: "App 管理",
+      },
+    },
+    {
       path: "play",
       component: Play,
       meta: {
@@ -44,22 +52,22 @@ export const adminRoute: RouteRecordRaw = {
     {
       path: "about",
       component: About,
-      meta:{
-          title: "About",
+      meta: {
+        title: "About",
       }
     },
     {
       path: "chart",
       component: Chart,
-      meta:{
-          title: "Chart",
+      meta: {
+        title: "Chart",
       }
     },
     {
       path: "users",
       component: User,
-      meta:{
-          title: "Users",
+      meta: {
+        title: "Users",
       }
     },
   ],
