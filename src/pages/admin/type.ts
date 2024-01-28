@@ -1,3 +1,5 @@
+import type { Ref } from "vue";
+
 export interface IMenu {
   title: string;
   key: string;
@@ -24,3 +26,12 @@ export interface FileInfo {
   file: FileItem;
   fileList: FileItem[];
 }
+
+export interface Ipagination {
+  current: number;
+  size: number;
+  total?: number;
+}
+
+export type MaybeRef<T> = T | Ref<T>;
+

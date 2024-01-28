@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/stores/auth";
 import type { Router } from "vue-router";
 export const UnAuthRouteNames = ["Login", "Sign"];
 export function useRouteGuardHook(router: Router) {

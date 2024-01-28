@@ -16,8 +16,9 @@ export const useAuthStore = defineStore("auth", {
       this.user = user;
     },
     setToken(token: string) {
-      window.localStorage.setItem("token",  "Bearer " +  token);
-      this.token = token;
+      let bearToken = "Bearer " + token;
+      window.localStorage.setItem("token", bearToken);
+      this.token = bearToken;
     },
   },
 });

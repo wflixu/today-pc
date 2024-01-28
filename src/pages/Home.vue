@@ -1,6 +1,6 @@
 <template>
-  <div class="t-home min-h-full">
-    <div class="boxs bg-gray-50 rounded w-64 mx-auto">
+  <div class="t-home">
+    <div class="boxs">
       <div class="card" @click="onClick('/admin')">
         <h3>控制台</h3>
         <p>管理系统</p>
@@ -25,12 +25,16 @@
         <h3>综合搜索</h3>
         <p>My Search</p>
       </div>
+      <div class="card" @click="onClick('/pgmate')">
+        <h3>PGMate</h3>
+        <p>pg 查询工具</p>
+      </div>
     </div>
     <SiteFooter />
   </div>
 </template>
 <script lang="ts">
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/stores/auth";
 import { ref, defineComponent } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import SiteFooter from "./../components/SiteFooter.vue";
@@ -62,6 +66,7 @@ export default defineComponent({
   position: relative;
   background-image: url("./../assets/bg.jpg");
   background-size: cover;
+  min-height: 100%;
 }
 .boxs {
   position: absolute;
@@ -71,10 +76,12 @@ export default defineComponent({
   transform: translate(-50%, -50%);
 
   width: 400px;
-  height: 300px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #eee;
 }
 .boxs:hover {
   box-shadow: 0 5px 5px #999;
@@ -82,6 +89,7 @@ export default defineComponent({
 }
 
 .card {
+  height: 120px;
   border: 1px solid #ddd;
   display: inline-flex;
   flex-direction: column;

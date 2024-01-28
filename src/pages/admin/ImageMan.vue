@@ -34,7 +34,7 @@ import { message } from "ant-design-vue";
 import { UploadOutlined } from "@ant-design/icons-vue";
 import { onMounted, reactive, ref } from "vue";
 
-import { useAuthStore } from "@/store/auth";
+import { useAuthStore } from "@/stores/auth";
 import http, { requestConfig } from "@/common/http";
 import type { Attach } from "./type";
 

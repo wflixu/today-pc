@@ -4,7 +4,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { useMainStore } from "./store";
+import { useMainStore } from "./stores";
 
 export default defineComponent({
   setup() {
