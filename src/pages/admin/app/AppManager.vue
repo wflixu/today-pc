@@ -25,7 +25,7 @@
                         <span>
                             <a @click="onDelete(record)">删除</a>
                             <a-divider type="vertical" />
-                            <a>查看</a>
+                            <a :href="viewUrl(record.id)" target="_blank">查看</a>
                             <a-divider type="vertical" />
                         </span>
                     </template>
@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import http from '@/common/http';
+import http, { apiHost } from '@/common/http';
 import { computed, reactive, ref } from 'vue';
 import type { Ipagination } from '../type';
 import type { TablePaginationConfig, TableProps } from 'ant-design-vue';
@@ -69,7 +69,9 @@ const pagination = computed(() => ({
     pageSize: pageSize.value,
 }));
 
-
+const viewUrl = (id:number) =>{
+    return `${apiHost}/release/update/${id}`
+}
 
 
 const columns = [
