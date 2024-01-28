@@ -16,9 +16,7 @@ const setToken = (options: AxiosRequestConfig) => {
     options.headers = {};
   }
   // // 考虑部分接口不需要使用 token，如用户登录接口（因为还没登录，没有 token）
-  if (!options.noSignature) {
-    console.warn('token', authStore.token);
-    
+  if (!options.noSignature) {    
     options.headers["Authorization"] =   authStore.token ?? "";
   }
 

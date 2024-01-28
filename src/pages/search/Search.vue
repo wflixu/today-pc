@@ -60,6 +60,7 @@
         </ul>
       </div>
     </div>
+    <WebNavi/>
   </div>
 </template>
 
@@ -76,6 +77,8 @@ import movie from "./../../assets/search/logo-douban-movie.png";
 import cargo from "./../../assets/search/logo-cargo.png";
 import avatar from "./../../assets/imgs/avatar-1.jpeg";
 import { useAuthStore } from "@/stores/auth";
+import WebNavi from './WebNavi.vue'
+
 
 const authStore = useAuthStore();
 const username = computed(() => {

@@ -1,11 +1,10 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import { runInterceptors } from "./interceptors/index";
 
-const apiHost = import.meta.env.VITE_API_HOST;
+export const apiHost = import.meta.env.VITE_API_HOST;
 
 export const requestConfig: AxiosRequestConfig = {
   validateStatus: (status) => {
-    console.log("validateStatus", status);
     return true;
   },
   baseURL: apiHost,
