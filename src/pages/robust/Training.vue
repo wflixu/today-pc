@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, defineComponent, reactive } from 'vue';
 
-import http from './../../common/http/index';
+import http from './../../common/http';
 
 export default defineComponent({
   setup() {

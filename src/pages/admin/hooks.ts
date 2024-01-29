@@ -1,41 +1,47 @@
-import http from "@/common/http"
-import { onMounted, ref, unref } from "vue"
+import { type IRes } from "./../../common/http";
 
+import http from "@/common/http";
+import { onMounted, ref, unref } from "vue";
+type IRe<T = any> = AxiosResponse<T>;
+export const usePagination = (
+  url: string,
+  initCurrent: number = 1,
+  initPageSize: number = 20
+) => {
+  const data = ref<Record<string, any>[]>([]);
 
-export const usePagination = (url: string, initCurrent: number = 1, initPageSize: number = 20) => {
-    const data = ref<Record<string, any>[]>([])
+  const loading = ref(false);
 
-    const loading = ref(false)
+  const current = ref(initCurrent);
+  const pageSize = ref(initPageSize);
 
-    const current = ref(initCurrent)
-    const pageSize = ref(initPageSize)
+  const run = () => {
+    loading.value = true;
+    http
+      .post<IRes<any>>(url, {
+        current: unref(current),
+        pageSize: unref(pageSize),
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.code == 200) {
+          data.value = res.data.records as Record<string, any>[];
+        }
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  };
 
-    const run = () => {
-        loading.value = true;
-        http.post(url, {
-            current: unref(current),
-            pageSize: unref(pageSize)
-        }).then((res: any) => {
-            console.log(res)
-            if (res.code == 200) {
-                data.value = res.data.records as Record<string, any>[]
-            }
-        }).finally(() => {
-            loading.value = false
-        })
+  onMounted(() => {
+    run();
+  });
 
-    }
-
-    onMounted(() => {
-        run()
-    })
-
-    return {
-        data,
-        run,
-        loading,
-        current,
-        pageSize,
-    }
-
-}
+  return {
+    data,
+    run,
+    loading,
+    current,
+    pageSize,
+  };
+};

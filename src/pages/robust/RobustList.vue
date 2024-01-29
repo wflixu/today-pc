@@ -31,7 +31,7 @@ import moment from "moment";
 import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 
-import http, { type IRes } from "../../common/http/index";
+import http, { type IRes } from "../../common/http";
 
 export default defineComponent({
   setup() {
