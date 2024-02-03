@@ -36,12 +36,13 @@ export default defineComponent({
   position: fixed;
   bottom: 0;
   width: 100vw;
-  background-color: #f4f3f4;
+  background-color: rgba(200,200,200, 0.7);
   ul {
     display: flex;
     height: 28px;
     align-items: center;
     justify-content: center;
+    margin-bottom: 0;
   }
 }
 </style>

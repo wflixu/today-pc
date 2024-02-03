@@ -1,4 +1,3 @@
-
 import {
   type RouteRecordRaw,
   createRouter,
@@ -6,7 +5,6 @@ import {
 } from "vue-router";
 
 import Home from "../pages/Home.vue";
-
 
 import Test from "../pages/Test.vue";
 
@@ -18,9 +16,9 @@ import RobustList from "../pages/robust/RobustList.vue";
 import Robust from "../pages/robust/Robust.vue";
 import Training from "../pages/robust/Training.vue";
 
-import SearchVue from "../pages/search/Search.vue";
 import Exception from "@/pages/error/Exception.vue";
 import LayoutAdmin from "@/layout/admin/LayoutAdmin.vue";
+import { useRouteGuardHook } from "./guard";
 
 // 自动导入modules文件夹下所有ts文件
 // @ts-ignore
@@ -63,10 +61,6 @@ const defaultRouterList: Array<RouteRecordRaw> = [
         component: Training,
       },
     ],
-  },
-  {
-    path: "/search",
-    component: SearchVue,
   },
 
   {
@@ -113,6 +107,4 @@ export const router = createRouter({
   sensitive: true,
 });
 
-
-
-
+useRouteGuardHook(router);
