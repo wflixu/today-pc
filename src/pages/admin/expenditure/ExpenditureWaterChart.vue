@@ -12,7 +12,7 @@ import VChart from "vue-echarts";
 import { ref, provide, computed, onMounted, reactive } from "vue";
 import { curl } from "@/common/curl";
 
-const aDay = 1000 * 60 * 60 * 24;
+const SPAN = 1000 * 60 * 60 * 24 * 30;
 
 interface RecordRow {
     created: string,
@@ -37,7 +37,7 @@ const chartOptions = reactive({
     },
     title: {
         left: 'center',
-        text: '天然气用量'
+        text: '自来水用量'
     },
 
     xAxis: {
@@ -62,7 +62,7 @@ const chartOptions = reactive({
         },
         {
             type: 'value',
-            name: '趋势(每天)',
+            name: '趋势（每个月)',
             axisLine: {
                 show: true,
             },
@@ -125,15 +125,13 @@ const chartOptions = reactive({
 
 onMounted(() => {
  
-    curl.get<IRes<any[]>>('/expend/gas').subscribe(res => {
-        console.log(res)
-        if (res.code == 200) {
-            // @ts-nocheck
+    curl.get<IRes<any[]>>('/expend/', {params: {kind: 3}}).subscribe(res => {
+        if (res.code == 200) {  
             chartOptions.dataset.source = res.data.map((item, index, arr) => {
                 let trend = 0;
                 if (index !== 0) {
                     let diff = item.count - arr[index - 1].count;
-                    let span = (new Date(item.created).getTime() - new Date(arr[index - 1].created).getTime()) / aDay
+                    let span = (new Date(item.created).getTime() - new Date(arr[index - 1].created).getTime()) / SPAN
                     trend = diff / span;
                 }
 
@@ -151,6 +149,7 @@ onMounted(() => {
 
 <style scoped>
 .chart {
+    margin-top: 40px;
     height: 400px;
 }
 </style>

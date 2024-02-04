@@ -18,7 +18,7 @@
     "echarts": "^5.4.3",
     "moment": "^2.30.1",
     "normalize.css": "^8.0.1",
-    "obfetch": "^1.0.0",
+    "obfetch": "^1.1.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "rxjs": "^7.8.1",
