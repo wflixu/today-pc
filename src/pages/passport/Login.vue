@@ -1,45 +1,34 @@
 <template>
   <div class="login">
-    <div class="box">
-      <div class="box-left">
-        <img :src="ikon" alt="" srcset="" />
-      </div>
-      <div class="box-right">
-        <div class="title">
-          <span>today admin</span>
+    <form action="">
+      <div class="box">
+        <div class="box-left">
+          <img :src="ikon" alt="" srcset="" />
         </div>
-        <div class="field">
-          <div class="label">用户名</div>
-          <div class="value">
-            <a-input
-              size="large"
-              v-model:value="formState.username"
-              placeholder="请输入用户名"
-            />
+        <div class="box-right">
+          <div class="title">
+            <span>today admin</span>
+          </div>
+          <div class="field">
+            <div class="label">用户名</div>
+            <div class="value">
+              <a-input size="large" v-model:value="formState.username" placeholder="请输入用户名" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="label">密码</div>
+            <div class="value">
+              <a-input-password size="large" v-model:value="formState.password" placeholder="请输入密码" />
+            </div>
+          </div>
+          <a-button type="primary" class="w-full" size="large" @click="onClickSubmit">登录</a-button>
+          <div class="mt-3 more">
+            <a-button @click="onGotoSign" type="link">注册</a-button>
           </div>
         </div>
-        <div class="field">
-          <div class="label">密码</div>
-          <div class="value">
-            <a-input-password
-              size="large"
-              v-model:value="formState.password"
-              placeholder="请输入密码"
-            />
-          </div>
-        </div>
-        <a-button
-          type="primary"
-          class="w-full"
-          size="large"
-          @click="onClickSubmit"
-          >登录</a-button
-        >
-        <div class="mt-3 more">
-          <a-button @click="onGotoSign" type="link">注册</a-button>
-        </div>
       </div>
-    </div>
+    </form>
+
   </div>
 </template>
 
@@ -48,7 +37,8 @@ import { reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
 import { useAuthStore } from "@/stores/auth";
-import http from "./../../common/http";
+import http, { type IRes } from "./../../common/http";
+import { curl } from "@/common/http";
 interface FormState {
   username: string;
   password: string;
@@ -68,9 +58,11 @@ const onClickSubmit = () => {
   console.log(formState);
   let { username, password } = formState;
   if (username && password) {
-    http
-      .post("/passport/login", { username, password })
-      .then(({ code, data }) => {
+    curl
+      .post<IRes<any>>("/passport/login", { username, password })
+      .subscribe((res) => {
+        const { code, data } = res;
+        console.log(data, code, res)
         if (code == 200) {
           const { user, token } = data;
           authStore.setUser(user);
@@ -79,9 +71,6 @@ const onClickSubmit = () => {
           router.push({ path: backRoute ?? "/home" });
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 };
 </script>
@@ -93,6 +82,7 @@ const onClickSubmit = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+
   .box {
     width: 1200px;
     height: 641px;
@@ -106,11 +96,14 @@ const onClickSubmit = () => {
     gap: 120px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.08),
       0px 2px 6px 0px rgba(0, 0, 0, 0.06), 0px 4px 8px 2px rgba(0, 0, 0, 0.04);
+
     &-left {
       width: 480px;
     }
+
     &-right {
       flex: 1;
+
       .title {
         height: 138px;
         display: flex;
@@ -119,8 +112,10 @@ const onClickSubmit = () => {
         font-weight: 600;
         margin-bottom: 20px;
       }
+
       .field {
         margin-bottom: 16px;
+
         .label {
           height: 36px;
           display: flex;
@@ -129,9 +124,11 @@ const onClickSubmit = () => {
           font-weight: normal;
         }
       }
+
       .w-full {
         margin-top: 20px;
       }
+
       .more {
         display: flex;
         justify-content: flex-end;

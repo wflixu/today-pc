@@ -94,4 +94,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.overflow-x-auto {
+  overflow-y: auto;
+}
+</style>

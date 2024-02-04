@@ -1,15 +1,26 @@
-import { defineConfig,type PluginOption } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx';
-import { fileURLToPath } from 'node:url';
+import { defineConfig, type PluginOption } from "vite";
+import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
+import { fileURLToPath } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 2048,
+    rollupOptions: {
+      manualChunks: {
+        vueFramework: ["vue", "vue-router", "pinia"],
+        network: ["obfetch", "rxjs"],
+        charts: ["echarts", "vue-echarts"],
+        UILib: ["ant-design-vue"],
+      },
+    },
   },
   // server: {
   //   cors: true,
@@ -22,6 +33,4 @@ export default defineConfig({
   //     }
   //   }
   // },
-
-})
-
+});

@@ -21,10 +21,6 @@
         <h3>注册</h3>
         <p>sign</p>
       </div>
-      <div class="card" @click="onClick('/search')">
-        <h3>综合搜索</h3>
-        <p>My Search</p>
-      </div>
       <div class="card" @click="onClick('/pgmate')">
         <h3>PGMate</h3>
         <p>pg 查询工具</p>

@@ -1,4 +1,3 @@
-
 import {
   type RouteRecordRaw,
   createRouter,
@@ -7,20 +6,11 @@ import {
 
 import Home from "../pages/Home.vue";
 
-
 import Test from "../pages/Test.vue";
 
-import PostEditor from "../pages/blog/PostEditor.vue";
-import PostList from "../pages/blog/PostList.vue";
-import PostDetail from "../pages/blog/PostDetail.vue";
-
-import RobustList from "../pages/robust/RobustList.vue";
-import Robust from "../pages/robust/Robust.vue";
-import Training from "../pages/robust/Training.vue";
-
-import SearchVue from "../pages/search/Search.vue";
 import Exception from "@/pages/error/Exception.vue";
 import LayoutAdmin from "@/layout/admin/LayoutAdmin.vue";
+import { useRouteGuardHook } from "./guard";
 
 // 自动导入modules文件夹下所有ts文件
 // @ts-ignore
@@ -51,39 +41,8 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/robust",
-    component: Robust,
-    children: [
-      {
-        path: "",
-        component: RobustList,
-      },
-      {
-        path: "train",
-        component: Training,
-      },
-    ],
-  },
-  {
-    path: "/search",
-    component: SearchVue,
-  },
-
-  {
     path: "/test",
     component: Test,
-  },
-  {
-    path: "/post",
-    component: PostList,
-  },
-  {
-    path: "/post/editor",
-    component: PostEditor,
-  },
-  {
-    path: "/post/:id",
-    component: PostDetail,
   },
   {
     path: "/exception",
@@ -113,6 +72,4 @@ export const router = createRouter({
   sensitive: true,
 });
 
-
-
-
+useRouteGuardHook(router);

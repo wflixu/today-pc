@@ -15,7 +15,8 @@
     // "moduleResolution": "NodeNext",
     // "verbatimModuleSyntax": false,
     "types": [
-      "pinia-plugin-persist"
+      "pinia-plugin-persist",
+      "obfetch"
     ],
     "paths": {
       "@/*": [

@@ -21,10 +21,10 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios';
+
 import { defineComponent, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import http, { IRes } from '../../common/http';
+import http, { type IRes } from '../../common/http';
 
 export default defineComponent({
   setup() {
@@ -34,7 +34,7 @@ export default defineComponent({
     const getData = () => {
       http
         .get('/api/user')
-        .then((res:any) => {
+        .subscribe((res:any) => {
           console.log(res);
           let { code, data, msg } = res as unknown as IRes;
           if (code) {
@@ -43,9 +43,7 @@ export default defineComponent({
           dataSource.value = data.list;
           console.log(dataSource);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+      
     };
 
     onMounted(() => {
@@ -59,13 +57,7 @@ export default defineComponent({
     const onDeteleRecord = (record: any) => {
       console.log(record);
 
-      axios
-        .delete('/api/user', {
-          data: {
-            id: record._id,
-          },
-        })
-        .then((res) => {});
+
     };
 
     const onAddUser = () => {

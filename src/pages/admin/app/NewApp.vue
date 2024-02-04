@@ -20,8 +20,10 @@
 </template>
 
 <script setup lang="ts">
+import { curl } from '@/common/http';
 import http, { type IRes } from '@/common/http';
 import type { FormInstance } from 'ant-design-vue';
+import { lastValueFrom } from 'rxjs';
 import { isRef, reactive, ref, toRefs, watch } from 'vue';
 
 const formRef = ref<FormInstance>();
@@ -67,9 +69,9 @@ const handleOk = async () => {
     }
     const data = await formRef.value.validate();
     if (data) {
-        const res = await http.post<IRes<any>>('/release/add', {
+        const res = await lastValueFrom( curl.post<IRes<any>>('/release/add', {
             ...data
-        })
+        }))
         if (res.code == 200) {
             emit('finish')
             show.value = false;

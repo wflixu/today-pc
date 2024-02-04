@@ -35,21 +35,22 @@ import { UploadOutlined } from "@ant-design/icons-vue";
 import { onMounted, reactive, ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
-import http, { requestConfig } from "@/common/http";
+import  { apiHost } from "@/common/http";
 import type { Attach } from "./type";
-
+import { curl } from "@/common/http";
+import { lastValueFrom } from "rxjs";
 const authStore = useAuthStore();
 
 const fileList = ref<Attach[]>([]);
 let uploadedFileList = ref<Attach[]>([]);
 const getFiles = async () => {
-  let res = await http.get("/chunk/imgs");
+  let res = await  lastValueFrom(curl.get("/chunk/imgs"));
 
   if (res.code === 200) {
     uploadedFileList.value = res.data.map((item: Attach) => {
       return {
         ...item,
-        url: requestConfig.baseURL + "/chunk/show" + "?id=" + item.id,
+        url: apiHost + "/chunk/show" + "?id=" + item.id,
       };
     });
   }
@@ -94,14 +95,14 @@ const columns = [
 ];
 
 const onClickDetele = (record: Attach) => {
-  http.delete(`/chunk/${record.id}`).then((res) => {
+  curl.delete(`/chunk/${record.id}`).subscribe((res) => {
     console.log(res.data);
     if (res.code == 200) {
       getFiles();
     }
   });
 };
-const actionUrl = requestConfig.baseURL + "/chunk/upload";
+const actionUrl = apiHost + "/chunk/upload";
 const headers = {
   Authorization: authStore.token,
 };
