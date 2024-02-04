@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard.vue";
 import FileUpload from "./FileUpload.vue";
 import Play from "./Play.vue";
 import About from "./About.vue";
-import Chart from "../chart/Chart.vue";
+import Chart from "./chart/Chart.vue";
 import User from "./User.vue";
 import AppManager from "./app/AppManager.vue";
 import Expenditure from "./expenditure/Expenditure.vue";
@@ -13,10 +13,12 @@ export const adminRoute: RouteRecordRaw = {
   path: "/admin",
   component: LayoutAdmin,
   redirect: "/admin/dashboard",
+  name: "Admin",
   children: [
     {
       path: "dashboard",
       component: Dashboard,
+      name: "Dashboard",
       meta: {
         title: "首页",
       },

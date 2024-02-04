@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { reactive, toRaw } from 'vue';
 import type { UnwrapRef } from 'vue';
-import http from '../../../common/http';
+import { curl } from '@/common/http';
 
 interface FormState {
     count: number;
@@ -52,13 +52,11 @@ const resetForm = () => {
 }
 const onSubmit = () => {
     console.log('submit!', toRaw(formState));
-    http.post('/expend/', { ...toRaw(formState) }).then((res: any) => {
+    curl.post('/expend/', { ...toRaw(formState) }).subscribe((res: any) => {
         if (res.code == 200) {
             resetForm()
 
         }
-    }).catch(err => {
-
     })
 };
 const labelCol = { style: { width: '150px' } };

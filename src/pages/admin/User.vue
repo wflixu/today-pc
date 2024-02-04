@@ -11,15 +11,9 @@
     <a-table :dataSource="dataSource" :columns="columns">
       <template #action="{ record }">
         <div class="table_actions">
-          <a-button type="link" size="small" @click="onDeteleRecord(record)"
-            >查看</a-button
-          >
-          <a-button type="link" size="small" @click="onDeteleRecord(record)"
-            >编辑</a-button
-          >
-          <a-button type="link" size="small" @click="onDeteleRecord(record)"
-            >删除</a-button
-          >
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">查看</a-button>
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">编辑</a-button>
+          <a-button type="link" size="small" @click="onDeteleRecord(record)">删除</a-button>
         </div>
       </template>
     </a-table>
@@ -29,7 +23,7 @@
 <script lang="ts">
 import { ref, defineComponent, reactive, onMounted } from "vue";
 
-import axios from "axios";
+
 import { useRouter } from "vue-router";
 import http, { type IRes } from "../../common/http";
 
@@ -43,7 +37,7 @@ export default defineComponent({
     const getData = () => {
       http
         .get("/api/user")
-        .then((res) => {
+        .subscribe((res) => {
           console.log(res);
           let { code, data, msg } = res as unknown as IRes;
           if (code) {
@@ -52,9 +46,7 @@ export default defineComponent({
           dataSource.value = data.list;
           console.log(dataSource);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+
     };
 
     onMounted(() => {
@@ -68,13 +60,14 @@ export default defineComponent({
     const onDeteleRecord = (record: any) => {
       console.log(record);
 
-      axios
+      http
         .delete("/api/user", {
-          data: {
+          params: {
             id: record._id,
-          },
-        })
-        .then((res) => {});
+          }
+        }
+        )
+        .subscribe((res) => { });
     };
 
     const onAddUser = () => {
@@ -117,10 +110,12 @@ export default defineComponent({
 .table_actions {
   display: flex;
 }
+
 .searchbox {
   display: flex;
   height: 48px;
   align-items: center;
+
   .left {
     flex: 1;
   }

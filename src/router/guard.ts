@@ -5,7 +5,6 @@ export const UnAuthRouteNames = ["Login", "Sign"];
 export function useRouteGuardHook(router: Router) {
   router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
-
     if (
       // 检查用户是否已登录
       !authStore.token &&

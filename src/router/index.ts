@@ -8,14 +8,6 @@ import Home from "../pages/Home.vue";
 
 import Test from "../pages/Test.vue";
 
-import PostEditor from "../pages/blog/PostEditor.vue";
-import PostList from "../pages/blog/PostList.vue";
-import PostDetail from "../pages/blog/PostDetail.vue";
-
-import RobustList from "../pages/robust/RobustList.vue";
-import Robust from "../pages/robust/Robust.vue";
-import Training from "../pages/robust/Training.vue";
-
 import Exception from "@/pages/error/Exception.vue";
 import LayoutAdmin from "@/layout/admin/LayoutAdmin.vue";
 import { useRouteGuardHook } from "./guard";
@@ -49,35 +41,8 @@ const defaultRouterList: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/robust",
-    component: Robust,
-    children: [
-      {
-        path: "",
-        component: RobustList,
-      },
-      {
-        path: "train",
-        component: Training,
-      },
-    ],
-  },
-
-  {
     path: "/test",
     component: Test,
-  },
-  {
-    path: "/post",
-    component: PostList,
-  },
-  {
-    path: "/post/editor",
-    component: PostEditor,
-  },
-  {
-    path: "/post/:id",
-    component: PostDetail,
   },
   {
     path: "/exception",

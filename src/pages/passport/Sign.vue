@@ -72,9 +72,9 @@
 import { computed, reactive, ref, unref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
-import { useAuthStore } from "@/stores/auth";
-import http, { type IRes } from "./../../common/http";
+
 import { message } from "ant-design-vue";
+import { curl } from "@/common/http";
 interface FormState {
   username: string;
   password: string;
@@ -97,7 +97,7 @@ const codeButtonActive = computed(() => {
 
 const onClickGetCode = () => {
   if (unref(codeButtonActive)) {
-    http.post("/passport/sms", { phone: formState.phone }).then((res: any) => {
+    curl.post("/passport/sms", { phone: formState.phone }).subscribe((res: any) => {
       if (res.code == 200) {
         isCode.value = true;
       }
@@ -112,23 +112,20 @@ const onClickSubmit = () => {
   let { username, password, code, phone } = formState;
 
   if (username && password) {
-    http
+    curl
       .post("/passport/sign", {
         username,
         password,
         phone,
         code,
       })
-      .then((res: any) => {
+      .subscribe((res: any) => {
         console.log(res);
         if (res.code == 200) {
           router.push({ path: "/passport/login" });
         } else {
           message.error(res.msg);
         }
-      })
-      .catch((err) => {
-        console.log(err);
       });
   }
 };

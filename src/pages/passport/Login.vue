@@ -37,7 +37,8 @@ import { reactive, ref, type UnwrapRef } from "vue";
 import { useRouter } from "vue-router";
 import ikon from "@/assets/imgs/login-ikon.png?url";
 import { useAuthStore } from "@/stores/auth";
-import http from "./../../common/http";
+import http, { type IRes } from "./../../common/http";
+import { curl } from "@/common/http";
 interface FormState {
   username: string;
   password: string;
@@ -57,9 +58,9 @@ const onClickSubmit = () => {
   console.log(formState);
   let { username, password } = formState;
   if (username && password) {
-    http
-      .post("/passport/login", { username, password })
-      .then((res) => {
+    curl
+      .post<IRes<any>>("/passport/login", { username, password })
+      .subscribe((res) => {
         const { code, data } = res;
         console.log(data, code, res)
         if (code == 200) {
@@ -70,9 +71,6 @@ const onClickSubmit = () => {
           router.push({ path: backRoute ?? "/home" });
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 };
 </script>

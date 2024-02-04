@@ -1,8 +1,7 @@
+import { curl } from "@/common/http";
 import { type IRes } from "./../../common/http";
 
-import http from "@/common/http";
 import { onMounted, ref, unref } from "vue";
-type IRe<T = any> = AxiosResponse<T>;
 export const usePagination = (
   url: string,
   initCurrent: number = 1,
@@ -17,18 +16,16 @@ export const usePagination = (
 
   const run = () => {
     loading.value = true;
-    http
+    curl
       .post<IRes<any>>(url, {
         current: unref(current),
         pageSize: unref(pageSize),
       })
-      .then((res) => {
+      .subscribe((res) => {
         console.log(res);
         if (res.code == 200) {
           data.value = res.data.records as Record<string, any>[];
         }
-      })
-      .finally(() => {
         loading.value = false;
       });
   };

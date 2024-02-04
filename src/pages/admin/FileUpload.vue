@@ -29,7 +29,9 @@
 import { message } from "ant-design-vue";
 import { UploadOutlined } from "@ant-design/icons-vue";
 import { defineComponent, onMounted, ref } from "vue";
-import http, { apiHost } from "@/common/http";
+import http, { apiHost, type IRes } from "@/common/http";
+import { lastValueFrom } from "rxjs";
+import { curl } from "@/common/http";
 interface FileItem {
   uid: string;
   name?: string;
@@ -66,7 +68,7 @@ export default defineComponent({
 
     const fileList = ref([]);
     const getFiles = async () => {
-      let res = await http.get("/chunk/list");
+      let res = await lastValueFrom( curl.get<IRes<any>>("/chunk/list"));
       if (res.code == 200) {
         return res.data as Attach[];
       } else {
@@ -107,8 +109,8 @@ export default defineComponent({
     ];
 
     const onClickDetele = (record: Attach) => {
-      http.delete(`/chunk/${record.id}`)
-        .then((res) => {
+      curl.delete<IRes<any>>(`/chunk/${record.id}`)
+        .subscribe((res) => {
           if (res.code == 200) {
             getFiles().then((data) => {
               if (data) {
@@ -123,7 +125,7 @@ export default defineComponent({
     };
 
     const onCheck = async () => {
-      const res = await http.get('/chunk/check')
+      const res = await lastValueFrom(curl.get<IRes<any>>('/chunk/check'))
       if (res.code == 200) {
         alert(res.data)
       }

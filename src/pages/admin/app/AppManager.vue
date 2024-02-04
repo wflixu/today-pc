@@ -39,13 +39,13 @@
 </template>
 
 <script setup lang="ts">
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
 import http, { apiHost } from '@/common/http';
 import { computed, reactive, ref } from 'vue';
-import type { Ipagination } from '../type';
 import type { TablePaginationConfig, TableProps } from 'ant-design-vue';
 import { usePagination } from '../hooks';
 import NewApp from './NewApp.vue';
+import { lastValueFrom } from 'rxjs';
+import { curl } from '@/common/http';
 
 const open = ref(false);
 const newAppRef = ref<typeof NewApp | null>(null);
@@ -128,7 +128,7 @@ const onFinishAdd = () =>{
 }
 
 const onDelete = async (record:any) =>{
-    const res = await http.delete(`/release/${record.id}`)
+    const res = await lastValueFrom(curl.delete(`/release/${record.id}`)) 
     if(res.code == 200) {
         run();
     }

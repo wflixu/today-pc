@@ -1,54 +1,80 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import { router } from "@/router";
 import { useAuthStore } from "@/stores/auth";
+import {
+  HttpClient,
+  HttpRequest,
+  HttpResponse,
+  type HttpEvent,
+  type HttpHandlerFn,
+} from "obfetch";
+import { Observable, map } from "rxjs";
 
 export const apiHost = import.meta.env.VITE_API_HOST;
 
-export const requestConfig: AxiosRequestConfig = {
-  validateStatus: (status) => {
-    return true;
-  },
-  baseURL: apiHost,
-  timeout: 100000,
-};
-
-export interface IRes<T> {
+export interface IRes<T = any> {
   code: number;
   msg: string;
   data: T;
 }
 
-/*
-  拦截器名称：全局设置请求的 token 内容
-*/
-const setToken = (options) => {
+export const curl = new HttpClient({
+  baseURL: apiHost,
+});
+
+function tokenInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
   const authStore = useAuthStore();
-
-  if (!options.headers) {
-    options.headers = {};
+  let token = authStore.token;
+  if (token) {
+    const reqWithHeader = req.clone({
+      headers: req.headers.set("Authorization", token),
+    });
+    return next(reqWithHeader);
   }
-  // 考虑部分接口不需要使用 token，如用户登录接口（因为还没登录，没有 token）
-  if (!options.noSignature) {
-    options.headers["Authorization"] = authStore.token ?? "";
-  }
 
-  return options;
-};
+  return next(req);
+}
 
-const setResult = (result: AxiosResponse) => {
-  console.log("[interceptor.response]setResult:", result);
+// Defining an interceptor formatting response data
 
-  // example: 根据实际业务处理
-  if (result && result.data) {
-    result = result.data;
-  }
-  return result;
-};
-const fullFail = (error) => {
-  // Do something with request error
-  return Promise.reject(error);
-};
-const http = axios.create(requestConfig);
-http.interceptors.request.use(setToken, fullFail);
-http.interceptors.response.use(setResult, fullFail);
+function responseDataFormatInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        return event.clone({ body: event.body?.data });
+      }
+      return event;
+    })
+  );
+}
+function responseAuthCheck(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> {
+  return next(req).pipe(
+    map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        if (event.body.code == 401) {
+          if (router.currentRoute.value.fullPath) {
+            window.localStorage.setItem(
+              "back-route",
+              router.currentRoute.value.fullPath
+            );
+          }
+          router.push("/passport/login");
+        }
+      }
+      return event;
+    })
+  );
+}
 
-export default http;
+// Use interceptor
+curl.use([tokenInterceptor, responseAuthCheck]);
+
+export default curl;
