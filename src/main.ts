@@ -17,7 +17,7 @@ const app = createApp(App);
 app.use(Antd);
 app.use(TodayUI);
 app.use(pinia);
-useRouteGuardHook(router);
+// useRouteGuardHook(router);
 app.use(router);
 app.use(echartsInitPlugin);
 app.mount("#app");
