@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/stores/auth";
 import type { Router } from "vue-router";
-export const UnAuthRouteNames = ["Login", "Sign"];
+export const UnAuthRouteNames = ["Login", "Sign", "Root", "Home"];
 
 export function useRouteGuardHook(router: Router) {
   router.beforeEach((to, from, next) => {
