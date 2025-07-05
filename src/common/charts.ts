@@ -1,5 +1,4 @@
 import { use } from "echarts/core";
-
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart, LinesChart, LineChart } from "echarts/charts";
 import {
@@ -11,9 +10,10 @@ import {
   DatasetComponent,
 } from "echarts/components";
 import { THEME_KEY } from "vue-echarts";
-import { provide } from "vue";
+import { type App, type Plugin } from "vue";
+import VChart from "vue-echarts";
 
-export const useCharts = function () {
+export const echartsInitPlugin: Plugin = (app: App, ...options: any[]) => {
   use([
     CanvasRenderer,
     DatasetComponent,
@@ -27,5 +27,6 @@ export const useCharts = function () {
     DataZoomComponent,
   ]);
 
-  //   provide(THEME_KEY, "");
+  app.provide(THEME_KEY, "");
+  app.component("v-chart", VChart);
 };

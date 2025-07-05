@@ -1,28 +1,24 @@
 <template>
     <div>
-        <v-chart class="chart" :option="chartOptions"  />
+        <v-chart class="chart" :option="chartOptions" />
     </div>
 </template>
 
 <script setup lang="ts">
 
-import http, { type IRes } from "./../../../common/http"
-import { useCharts } from './../../../common/charts'
-import VChart from "vue-echarts";
-import { ref, provide, computed, onMounted, reactive } from "vue";
-import { curl } from "@/common/http";
+import { onMounted, reactive } from "vue";
+import { curl, type IRes } from "@/common/http";
 
 const aDay = 1000 * 60 * 60 * 24;
 
 interface RecordRow {
     created: string,
     count: number,
-    kind:number,
-    trend:number,
-    [key:string]:any,
+    kind: number,
+    trend: number,
+    [key: string]: any,
 }
 
-useCharts();
 
 const chartOptions = reactive({
     tooltip: {
@@ -33,7 +29,7 @@ const chartOptions = reactive({
     },
     dataset: {
         dimensions: ['created', 'count', 'kind', 'trend'],
-        source: [] as  any[]
+        source: [] as any[]
     },
     title: {
         left: 'center',
@@ -110,7 +106,7 @@ const chartOptions = reactive({
             yAxisIndex: 1,
             label: {
                 show: true,
-                formatter: function ({ value }: {value: RecordRow}) {
+                formatter: function ({ value }: { value: RecordRow }) {
                     return value.trend.toFixed(2)
                 }
             },
@@ -124,7 +120,7 @@ const chartOptions = reactive({
 });
 
 onMounted(() => {
- 
+
     curl.get<IRes<any[]>>('/expend/gas').subscribe(res => {
         console.log(res)
         if (res.code == 200) {

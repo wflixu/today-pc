@@ -9,6 +9,8 @@ import Chart from "./chart/Chart.vue";
 import User from "./User.vue";
 import AppManager from "./app/AppManager.vue";
 import Expenditure from "./expenditure/Expenditure.vue";
+import Markdown from "./markdown/Markdown.vue";
+
 export const adminRoute: RouteRecordRaw = {
   path: "/admin",
   component: LayoutAdmin,
@@ -21,6 +23,13 @@ export const adminRoute: RouteRecordRaw = {
       name: "Dashboard",
       meta: {
         title: "首页",
+      },
+    },
+    {
+      path: "markdown",
+      component: Markdown,
+      meta: {
+        title: "markdown编辑器",
       },
     },
     {

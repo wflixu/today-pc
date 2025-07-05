@@ -6,11 +6,8 @@
 
 <script setup lang="ts">
 
-import http, { type IRes } from "./../../../common/http"
-import { useCharts } from './../../../common/charts'
-import VChart from "vue-echarts";
 import { ref, provide, computed, onMounted, reactive } from "vue";
-import { curl } from "@/common/http";
+import { curl , type IRes} from "@/common/http";
 
 const SPAN = 1000 * 60 * 60 * 24 * 30;
 
@@ -22,7 +19,6 @@ interface RecordRow {
     [key:string]:any,
 }
 
-useCharts();
 
 const chartOptions = reactive({
     tooltip: {

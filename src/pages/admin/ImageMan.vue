@@ -1,14 +1,8 @@
 <template>
   <div class="page">
     <div class="flex-1 mb-2">
-      <a-upload
-        v-model:file-list="fileList"
-        name="file"
-        :multiple="true"
-        :action="actionUrl"
-        :headers="headers"
-        @change="handleChange"
-      >
+      <a-upload v-model:file-list="fileList" name="file" :multiple="true" :action="actionUrl" :headers="headers"
+        @change="handleChange">
         <a-button>
           <upload-outlined></upload-outlined>
           Click to Upload
@@ -21,9 +15,7 @@
       <a-table :dataSource="uploadedFileList" :columns="columns">
         <template #action="{ record }">
           <a :href="record.url" link target="_blank">查看</a>
-          <a-button class="ml-2" size="small" @click="onClickDetele(record)"
-            >删除</a-button
-          >
+          <a-button class="ml-2" size="small" @click="onClickDetele(record)">删除</a-button>
         </template>
       </a-table>
     </div>
@@ -35,7 +27,7 @@ import { UploadOutlined } from "@ant-design/icons-vue";
 import { onMounted, reactive, ref } from "vue";
 
 import { useAuthStore } from "@/stores/auth";
-import  { apiHost } from "@/common/http";
+import { apiHost, type IRes } from "@/common/http";
 import type { Attach } from "./type";
 import { curl } from "@/common/http";
 import { lastValueFrom } from "rxjs";
@@ -43,17 +35,19 @@ const authStore = useAuthStore();
 
 const fileList = ref<Attach[]>([]);
 let uploadedFileList = ref<Attach[]>([]);
-const getFiles = async () => {
-  let res = await  lastValueFrom(curl.get("/chunk/imgs"));
+const getFiles = () => {
+  curl.get<IRes>("/chunk/imgs").subscribe(res => {
+    console.log(res)
+    if (res.code === 200) {
+      uploadedFileList.value = res.data.map((item: Attach) => {
+        return {
+          ...item,
+          url: apiHost + "/chunk/show" + "?id=" + item.id,
+        };
+      });
+    }
+  });
 
-  if (res.code === 200) {
-    uploadedFileList.value = res.data.map((item: Attach) => {
-      return {
-        ...item,
-        url: apiHost + "/chunk/show" + "?id=" + item.id,
-      };
-    });
-  }
 };
 
 const refreshList = () => {

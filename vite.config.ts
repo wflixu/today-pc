@@ -14,11 +14,13 @@ export default defineConfig({
   build: {
     chunkSizeWarningLimit: 2048,
     rollupOptions: {
-      manualChunks: {
-        vueFramework: ["vue", "vue-router", "pinia"],
-        network: ["obfetch", "rxjs"],
-        charts: ["echarts", "vue-echarts"],
-        UILib: ["ant-design-vue"],
+      output: {
+        manualChunks: {
+          vueFramework: ["vue", "vue-router", "pinia"],
+          network: ["obfetch", "rxjs"],
+          charts: ["echarts", "vue-echarts"],
+          UILib: ["ant-design-vue"],
+        },
       },
     },
   },
