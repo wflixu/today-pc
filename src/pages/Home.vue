@@ -45,9 +45,9 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const authStore = useAuthStore();
-    if (!authStore.token) {
-      router.push("/passport/login");
-    }
+    // if (!authStore.token) {
+    //   router.push("/passport/login");
+    // }
     let onClick = (key: string) => {
       router.push(key);
     };
